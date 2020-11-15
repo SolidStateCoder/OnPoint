@@ -22,6 +22,11 @@
                 <TextBlock x:Name="HeightText" FontWeight="Bold" Margin="0,4,4,4" VerticalAlignment="Center" />
             </StackPanel>
 
+            <StackPanel x:Name="HUDPanel" DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="2">
+                <Button x:Name="CloseHUDButton" VerticalAlignment="Center" Content="X" Margin="2" />
+                <TextBlock x:Name="HUDMessageText" VerticalAlignment="Center" Margin="2" />
+            </StackPanel>
+
             <Border BorderBrush="Orange" BorderThickness="2" CornerRadius="4" Margin="2">
                 <ContentControl Content="{Binding Content}" Margin="2" />
             </Border>

@@ -1,6 +1,7 @@
 ﻿using ReactiveUI;
 using System.Reactive.Disposables;
 using System.Windows;
+using OnPoint.Universal;
 
 namespace OnPoint.WpfTestApp
 {
@@ -32,6 +33,15 @@ namespace OnPoint.WpfTestApp
                     .DisposeWith(disposable);
 
                 this.Bind(ViewModel, vm => vm.AppMinHeight, v => v.HeightSlider.Minimum)
+                    .DisposeWith(disposable);
+
+                this.BindCommand(ViewModel, vm => vm.CloseHUDMessageCmd, v => v.CloseHUDButton)
+                    .DisposeWith(disposable);
+
+                this.OneWayBind(ViewModel, vm => vm.HUDMessage, v => v.HUDMessageText.Text)
+                    .DisposeWith(disposable);
+
+                this.OneWayBind(ViewModel, vm => vm.HUDMessage, v => v.HUDPanel.Visibility, x => x.IsNothing() ? Visibility.Collapsed : Visibility.Visible)
                     .DisposeWith(disposable);
             });
         }

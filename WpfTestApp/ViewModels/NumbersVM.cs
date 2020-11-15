@@ -29,7 +29,9 @@ namespace OnPoint.WpfTestApp
 
         protected async override Task<ExecutionResultMessage> Activated(CompositeDisposable disposable)
         {
+            // Simulate activation delay.
             await Task.Delay(3000);
+            LoadNumbersStart();
             return await base.Activated(disposable);
         }
 
@@ -40,6 +42,7 @@ namespace OnPoint.WpfTestApp
         private async Task<List<Number>> LoadNumbersAsync()
         {
             BusyMessageOverride = "Refreshing...";
+            // Simulate network latency.
             await Task.Delay(3000);
             List<Number> retVal = new List<Number>();
             int target = new Random().Next(10000);
@@ -51,10 +54,6 @@ namespace OnPoint.WpfTestApp
             return retVal;
         }
 
-        private void LoadNumbersComplete(List<Number> numbers)
-        {
-            Contents.Clear();
-            Contents.AddRange(numbers);
-        }
+        private void LoadNumbersComplete(List<Number> numbers) => Contents.ClearAndAddRange(numbers);
     }
 }

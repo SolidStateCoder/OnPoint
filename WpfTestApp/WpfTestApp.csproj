@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Universal\Universal.csproj" />
     <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
+    <ProjectReference Include="..\WpfCore\WpfCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

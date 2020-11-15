@@ -14,10 +14,7 @@ namespace OnPoint.ViewModels
                 .Subscribe(x => CollectionHasChanged(x));
         }
 
-        public ObsColl(params T[] items) : this()
-        {
-            AddRangeSilent(items);
-        }
+        public ObsColl(params T[] items) : this() => AddRangeSilent(items);
 
         public void AddRangeSilent(IEnumerable<T> items)
         {
@@ -35,15 +32,20 @@ namespace OnPoint.ViewModels
             }
         }
 
+        public void ClearAndAddRange(IEnumerable<T> items)
+        {
+            Clear();
+            if (items != null)
+            {
+                AddRange(items);
+            }
+        }
+
         public void ClearAndAddRangeSilent(IEnumerable<T> items)
         {
             using (SuspendNotifications())
             {
-                Clear();
-                if (items != null)
-                {
-                    AddRange(items);
-                }
+                ClearAndAddRange(items);
             }
         }
 

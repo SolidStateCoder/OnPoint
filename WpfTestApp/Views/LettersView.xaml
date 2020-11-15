@@ -7,6 +7,20 @@
     xmlns:OPTest="clr-namespace:OnPoint.WpfTestApp"
     >
     <Grid>
-        <TextBlock Text="Letters" />
+        <Border x:Name="BusyIndicator" Panel.ZIndex="1" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="10" BorderBrush="Firebrick" BorderThickness="2" Background="LightGray">
+            <DockPanel Margin="20">
+                <Button x:Name="CancelButton" DockPanel.Dock="Bottom" Content="Cancel" HorizontalAlignment="Center" Margin="2" />
+                <TextBlock x:Name="BusyText" Text="Loading..." Foreground="Firebrick" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" FontSize="12" FontWeight="Bold" />
+            </DockPanel>
+        </Border>
+
+        <DockPanel x:Name="MainDock">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="2" HorizontalAlignment="Center">
+                <Button x:Name="RefreshButton" Style="{StaticResource TextButton}" />
+            </StackPanel>
+            <TextBlock DockPanel.Dock="Bottom" x:Name="SelectedLetterText" Margin="4" />
+            <!-- Because of a bug in Reactive UI, the ItemsSource and SelectedItem bindings must be set in XAML -->
+            <ListBox x:Name="LetterList" ItemsSource="{Binding Contents}" SelectedItem="{Binding SelectedContent}" Margin="2" />
+        </DockPanel>
     </Grid>
 </rxui:ReactiveUserControl>
