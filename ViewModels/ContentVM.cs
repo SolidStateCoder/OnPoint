@@ -3,6 +3,7 @@ using OnPoint.Universal;
 using ReactiveUI;
 using System;
 using System.Reactive.Disposables;
+using System.Threading.Tasks;
 
 namespace OnPoint.ViewModels
 {
@@ -17,8 +18,6 @@ namespace OnPoint.ViewModels
         protected IObservable<bool> WhenContentNull_NotBusy { get; }
         protected IObservable<bool> WhenContentNotNull_NotBusy { get; }
 
-        public ContentVM() { }
-
         public ContentVM(T content) : this(content, null, 0, null, null) { }
 
         public ContentVM(T content = default, ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default) : base(lifeTimeScope, viewModelTypeId, screen, urlPathSegment)
@@ -30,7 +29,7 @@ namespace OnPoint.ViewModels
             WhenContentNotNull_NotBusy = this.WhenAny(vm => vm.Content, vm => vm.IsBusy, (x, y) => x.Value != null && !y.Value);
         }
 
-        protected override ExecutionResultMessage Activated(CompositeDisposable disposable)
+        protected override Task<ExecutionResultMessage> Activated(CompositeDisposable disposable)
         {
             this.WhenAnyValue(vm => vm.Content)
                 .Subscribe(ContentHasChanged);

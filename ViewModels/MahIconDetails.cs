@@ -17,8 +17,6 @@ namespace OnPoint.ViewModels
         public TForeground Background { get => _Background; set => this.RaiseAndSetIfChanged(ref _Background, value); }
         private TForeground _Background = default;
 
-        public MahIconDetails() { }
-
         public MahIconDetails(TIcon icon, TForeground foreground, double width, double height, GridPosition gridPosition, IconFlipOrientation flip, double rotation, bool spin, double spinDuration, object spinEasingFunction, bool spinAutoReverse)
             : base(width, height, gridPosition, flip, rotation, spin, spinDuration, spinEasingFunction, spinAutoReverse)
         {
