@@ -10,6 +10,7 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace OnPoint.ViewModels
 {
@@ -89,8 +90,6 @@ namespace OnPoint.ViewModels
         // https://reactiveui.net/docs/handbook/when-activated/
         private static readonly Dictionary<ILifetimeScope, int> _LifetimeScopeCounts = new Dictionary<ILifetimeScope, int>();
 
-        public ViewModelBase() { }
-
         public ViewModelBase(ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default)
         {
             ViewModelId = Interlocked.Increment(ref _IDIndex);
@@ -132,10 +131,10 @@ namespace OnPoint.ViewModels
             try
             {
                 // https://reactiveui.net/docs/handbook/when-activated/
-                this.WhenActivated(disposable =>
+                this.WhenActivated(async disposable =>
                 {
-                    StartBusy();
-                    Activated(disposable);
+                    StartBusy("Activating...");
+                    await Activated(disposable);
                     StopBusy();
 
                     Disposable
@@ -218,7 +217,7 @@ namespace OnPoint.ViewModels
         }
 
         // Added to visual tree.
-        protected virtual ExecutionResultMessage Activated(CompositeDisposable disposable)
+        protected virtual async Task<ExecutionResultMessage> Activated(CompositeDisposable disposable)
         {
             IList<IObservable<bool>> commandsIsExecuting = GetCancellableCommads();
             IsCancelEnabled = commandsIsExecuting.AnyNonNulls();

@@ -1,0 +1,30 @@
+﻿<rxui:ReactiveUserControl
+    x:Class="OnPoint.WpfTestApp.RootView"
+    x:TypeArguments="OPTest:RootVM"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:rxui="http://reactiveui.net"
+    xmlns:OPTest="clr-namespace:OnPoint.WpfTestApp">
+    <Grid>
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Top" Margin="4">
+                <Image DockPanel.Dock="Left" Source="pack://application:,,,/OnPointWpfTestApp;component/Images/Bullseye64.png" Width="32" Height="32" VerticalAlignment="Center" Margin="4" />
+                <TextBlock x:Name="DescriptionText" FontSize="12" FontWeight="Bold" TextWrapping="Wrap" VerticalAlignment="Center" Margin="4" />
+            </DockPanel>
+
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
+                <TextBlock Text="Width:" FontWeight="Bold" Margin="4" VerticalAlignment="Center" />
+                <Slider x:Name="WidthSlider" Width="100" SmallChange="1" LargeChange="10" Maximum="1920" Margin="4" />
+                <TextBlock x:Name="WidthText" FontWeight="Bold" Margin="0,4,4,4" VerticalAlignment="Center" />
+                
+                <TextBlock Text="Height:" FontWeight="Bold" Margin="10,4,4,4" VerticalAlignment="Center" />
+                <Slider x:Name="HeightSlider" Width="100" SmallChange="1" LargeChange="10" Maximum="1080" Margin="4" />
+                <TextBlock x:Name="HeightText" FontWeight="Bold" Margin="0,4,4,4" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <Border BorderBrush="Orange" BorderThickness="2" CornerRadius="4" Margin="2">
+                <ContentControl Content="{Binding Content}" Margin="2" />
+            </Border>
+        </DockPanel>
+    </Grid>
+</rxui:ReactiveUserControl>

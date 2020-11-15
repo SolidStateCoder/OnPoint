@@ -10,6 +10,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace OnPoint.ViewModels
 {
@@ -26,8 +27,6 @@ namespace OnPoint.ViewModels
         protected IObservable<bool> WhenSelected_NotBusy { get; }
         protected IObservable<bool> WhenAnyContents { get; }
 
-        public MultiContentVM() : this(null, 0, null, null) { }
-
         public MultiContentVM(ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default) : base(lifeTimeScope, viewModelTypeId, screen, urlPathSegment)
         {
             WhenSelected = this.WhenAny(vm => vm.SelectedContent, x => x.Value != null);
@@ -36,19 +35,19 @@ namespace OnPoint.ViewModels
             Contents.CollectionChanged += Contents_CollectionChanged;
         }
 
-        protected override ExecutionResultMessage Activated(CompositeDisposable disposable)
+        protected async override Task<ExecutionResultMessage> Activated(CompositeDisposable disposable)
         {
             Contents
-                .ToObservableChangeSet()
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(x => ContentsChanged(x))
-                .DisposeWith(disposable);
+               .ToObservableChangeSet()
+                   .ObserveOn(RxApp.MainThreadScheduler)
+                   .Subscribe(x => ContentsChanged(x))
+                   .DisposeWith(disposable);
 
             this.WhenAnyValue(vm => vm.SelectedContent)
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(SelectedContentChanged);
 
-            return base.Activated(disposable);
+            return await base.Activated(disposable);
         }
 
         private void Contents_CollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
