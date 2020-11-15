@@ -12,6 +12,7 @@ namespace OnPoint.WpfTestApp
         {
             Title = "Wpf Test App for OnPoint";
             Description = "On Point - Enhances the Reactive UI MVVM framework with easy to use classes for the most common use cases.";
+            HUDMessage = "Welcome to the On Point Wpf Demo app!";
 
             // These position values could be restored from saved preferences to place the window in in last known location.
             AppWidth = 800;

@@ -4,10 +4,10 @@ namespace OnPoint.WpfTestApp
 {
     public class Letter : ReactiveObject
     {
-        public string Value { get => _Value; set => this.RaiseAndSetIfChanged(ref _Value, value); }
-        private string _Value = default;
+        public char Value { get => _Value; set => this.RaiseAndSetIfChanged(ref _Value, value); }
+        private char _Value = default;
 
-        public Letter(string letter)
+        public Letter(char letter)
         {
             Value = letter;
         }

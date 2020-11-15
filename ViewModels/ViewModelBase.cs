@@ -58,8 +58,12 @@ namespace OnPoint.ViewModels
         public string UrlPathSegment { get; }
         public IScreen HostScreen { get; }
 
+        // CancelCmd can always be executed. CancelBoundCmd can only be executed when a cancellable command is executing.
         public ReactiveCommand<Unit, Unit> CancelCmd { get => _CancelCmd; private set => this.RaiseAndSetIfChanged(ref _CancelCmd, value); }
         private ReactiveCommand<Unit, Unit> _CancelCmd = default;
+
+        public ReactiveCommand<Unit, Unit> CancelBoundCmd { get => _CancelBounCmd; private set => this.RaiseAndSetIfChanged(ref _CancelBounCmd, value); }
+        private ReactiveCommand<Unit, Unit> _CancelBounCmd = default;
 
         public ReactiveCommand<Unit, bool> CloseErrorMessageCmd { get; protected set; }
         public ReactiveCommand<Unit, string> CloseHUDMessageCmd { get; protected set; }
@@ -122,6 +126,7 @@ namespace OnPoint.ViewModels
             _ToggleBusy = x => { if (x) StartBusy(); else StopBusy(); };
             _ToggleBusyMessage = (x, y) => { if (x) StartBusy(y); else StopBusy(); };
 
+            CancelCmd = ReactiveCommand.Create(Cancel);
             CloseErrorMessageCmd = ReactiveCommand.Create(() => false);
             CloseHUDMessageCmd = ReactiveCommand.Create(() => HUDMessage = default);
 
@@ -221,7 +226,7 @@ namespace OnPoint.ViewModels
         {
             IList<IObservable<bool>> commandsIsExecuting = GetCancellableCommads();
             IsCancelEnabled = commandsIsExecuting.AnyNonNulls();
-            CancelCmd = ReactiveCommand.Create(Cancel, Observable.Merge(commandsIsExecuting));
+            CancelBoundCmd = ReactiveCommand.Create(() => { CancelCmd.Execute().Subscribe(); }, Observable.Merge(commandsIsExecuting));
 
             IList<IObservable<bool>> busyCmds = GetBusyCommands();
             Observable.Merge(GetBusyCommands())
@@ -230,10 +235,8 @@ namespace OnPoint.ViewModels
                 .Subscribe(x => _ToggleBusy(x));
 
             IList<IObservable<Exception>> throwers = GetAllCommandThrownExceptions();
-            if (CancelCmd != null)
-            {
-                throwers.Add(CancelCmd.ThrownExceptions);
-            }
+            throwers.Add(CancelCmd.ThrownExceptions);
+            throwers.Add(CancelBoundCmd.ThrownExceptions);
             throwers.Add(CloseErrorMessageCmd.ThrownExceptions);
             throwers.Add(CloseHUDMessageCmd.ThrownExceptions);
 
