@@ -11,8 +11,11 @@ using System.Threading.Tasks;
 
 namespace OnPoint.ViewModels
 {
-    // An extension of MultiContentVM that reports when its contents have changed.
-    public abstract class MultiContentWatchedVM<T> : MultiContentVM<T> where T : class, INotifyPropertyChanged
+    /// <summary>
+    /// An extension of <see cref="MultiContentVM"/> that reports when its contents have changed.
+    /// </summary>
+    /// <typeparam name="T">The type of the <see cref="MultiContentVM.Contents"/></typeparam>
+    public abstract class MultiContentWatchedVM<T> : MultiContentVM<T> where T : class, INotifyPropertyChanged, IIsChanged
     {
         public MultiContentWatchedVM(ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default) : base(lifeTimeScope, viewModelTypeId, screen, urlPathSegment) { }
 
@@ -21,7 +24,7 @@ namespace OnPoint.ViewModels
             Contents
                 .ToObservableChangeSet()
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .WhenAnyPropertyChanged("IsChanged")
+                .WhenAnyPropertyChanged(nameof(IIsChanged.IsChanged))
                 .Subscribe(x => ContentHasChanged(x))
                 .DisposeWith(disposable);
 

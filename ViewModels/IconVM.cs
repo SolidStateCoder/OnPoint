@@ -3,8 +3,14 @@ using ReactiveUI;
 
 namespace OnPoint.ViewModels
 {
+    /// <summary>
+    /// Adds <see cref="IconDetails"/> to <see cref="ViewModelBase"/>.
+    /// </summary>
     public class IconVM : ViewModelBase
     {
+        /// <summary>
+        /// The properties that model the image.
+        /// </summary>
         public IconDetails IconDetails { get => _IconDetails; set => this.RaiseAndSetIfChanged(ref _IconDetails, value); }
         private IconDetails _IconDetails = default;
 

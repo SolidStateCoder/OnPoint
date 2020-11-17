@@ -1,5 +1,8 @@
 ﻿namespace OnPoint.Universal
 {
+    /// <summary>
+    /// Models the result of an action.
+    /// </summary>
     public enum ExecutionResult
     {
         NoOp = 0,
@@ -9,6 +12,9 @@
     }
 
 
+    /// <summary>
+    /// Models the position of something in a 3x3 grid.
+    /// </summary>
     public enum GridPosition : uint
     {
         Unknown = 0,
@@ -31,11 +37,25 @@
     }
 
 
+    /// <summary>
+    /// Models the mirroring of an image.
+    /// </summary>
     public enum IconFlipOrientation
     {
         Normal = 0,
         Horizontal = 1,
         Vertical = 2,
         Both = 3
+    }
+
+
+    /// <summary>
+    /// Models the current state of the app, or window, on the device.
+    /// </summary>
+    public enum AppDisplayState
+    {
+        Normal = 0,
+        Minimized = 1,
+        Maximized = 2,
     }
 }

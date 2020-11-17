@@ -5,6 +5,9 @@ using System.Reactive.Concurrency;
 
 namespace OnPoint.ViewModels
 {
+    /// <summary>
+    /// Determines how <see cref="IObservable{T}"/> exceptions are handled by Reactive UI.
+    /// </summary>
     public class RxExceptionHandler : IObserver<Exception>
     {
         public void OnNext(Exception value)

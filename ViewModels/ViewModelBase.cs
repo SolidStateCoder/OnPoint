@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace OnPoint.ViewModels
 {
+    /// <summary>
+    /// The base class for all view models in OnPoint.
+    /// </summary>
     public abstract class ViewModelBase : ReactiveObject, IViewModel, IActivatableViewModel, IRoutableViewModel, IEquatable<ViewModelBase>
     {
         public uint ViewModelTypeId { get => _ViewModelTypeId; set => this.RaiseAndSetIfChanged(ref _ViewModelTypeId, value); }
@@ -46,6 +49,9 @@ namespace OnPoint.ViewModels
         public bool IsActivated { get => _IsActivated; set => this.RaiseAndSetIfChanged(ref _IsActivated, value); }
         private bool _IsActivated = false;
 
+        public bool IsSelected { get => _IsSelected; set => this.RaiseAndSetIfChanged(ref _IsSelected, value); }
+        private bool _IsSelected = false;
+
         public bool IsShowingErrorMessage { get { return _IsShowingErrorMessage.Value; } }
         private ObservableAsPropertyHelper<bool> _IsShowingErrorMessage = default;
 
@@ -59,9 +65,12 @@ namespace OnPoint.ViewModels
         public IScreen HostScreen { get; }
 
         // CancelCmd can always be executed. CancelBoundCmd can only be executed when a cancellable command is executing.
-        public ReactiveCommand<Unit, Unit> CancelCmd { get => _CancelCmd; private set => this.RaiseAndSetIfChanged(ref _CancelCmd, value); }
-        private ReactiveCommand<Unit, Unit> _CancelCmd = default;
+        protected ReactiveCommand<Unit, Unit> CancelCmd { get; private set; }
 
+        /// <summary>
+        /// Can be used by the UI to call <see cref="CancelCmd"/>. CancelCmd can always be executed, but CancelBoundCmd can only be 
+        /// executed when a cancellable command is executing which makes it ideal for binding to the UI.
+        /// </summary>
         public ReactiveCommand<Unit, Unit> CancelBoundCmd { get => _CancelBounCmd; private set => this.RaiseAndSetIfChanged(ref _CancelBounCmd, value); }
         private ReactiveCommand<Unit, Unit> _CancelBounCmd = default;
 
@@ -84,6 +93,9 @@ namespace OnPoint.ViewModels
         protected bool IsDisabledWhenBusy { get; set; } = true;
         protected bool CanActivatedBeRequested { get; set; } = false;
 
+        /// <summary>
+        /// Used by Reactive UI to activate this view model when it enters the visual tree. It should be not touched.
+        /// </summary>
         public ViewModelActivator Activator { get; }
         protected ILifetimeScope LifeTimeScope { get; private set; }
 
@@ -293,12 +305,16 @@ namespace OnPoint.ViewModels
 
         public bool Equals(ViewModelBase other) => ViewModelId == other?.ViewModelId;
 
-        // If two or more view models share the same view, this method can be used to ensure they all get activated together.
-        public void RequestActivated(CompositeDisposable disposable)
+        /// <summary>
+        /// If two or more view models share the same view, this method can be used to ensure they all get activated together.
+        /// <see cref="CanActivatedBeRequested"/> must be set to True.
+        /// </summary>
+        /// <param name="disposable">The <see cref="CompositeDisposable"/> used to dispose bindings</param>
+        public async void RequestActivated(CompositeDisposable disposable)
         {
             if (CanActivatedBeRequested)
             {
-                Activated(disposable);
+                await Activated(disposable);
                 IsActivated = true;
             }
         }

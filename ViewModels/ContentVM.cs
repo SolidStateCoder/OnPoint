@@ -7,12 +7,19 @@ using System.Threading.Tasks;
 
 namespace OnPoint.ViewModels
 {
-    // A standard VM that has one child.
+    /// <summary>
+    /// A standard <see cref="ViewModelBase"/> that has one "child".
+    /// </summary>
+    /// <typeparam name="T">The type of the child <see cref="Content"/></typeparam>
     public abstract class ContentVM<T> : ViewModelBase
     {
+        /// <summary>
+        /// The single child VM.
+        /// </summary>
         public T Content { get => _Content; set => this.RaiseAndSetIfChanged(ref _Content, value); }
         private T _Content = default;
 
+        // IObservables that can be used to control when ICommands can be executed.
         protected IObservable<bool> WhenContentNull { get; }
         protected IObservable<bool> WhenContentNotNull { get; }
         protected IObservable<bool> WhenContentNull_NotBusy { get; }
