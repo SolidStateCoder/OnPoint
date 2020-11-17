@@ -50,12 +50,12 @@ namespace OnPoint.ViewModels
 
         protected async override Task<ExecutionResultMessage> Activated(CompositeDisposable disposable)
         {
-            this.WhenAnyValue(vm => vm.Content)
-                .Subscribe(ContentHasChanged);
+            this.WhenAnyValue(vm => vm.Content2)
+                .Subscribe(Content2HasChanged);
 
             return await base.Activated(disposable);
         }
 
-        protected virtual void ContentHasChanged(T content) { }
+        protected virtual void Content2HasChanged(U content2) { }
     }
 }

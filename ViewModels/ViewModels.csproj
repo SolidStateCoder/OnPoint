@@ -1,14 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>OnPoint.ViewModels</AssemblyName>
     <RootNamespace>OnPoint.ViewModels</RootNamespace>
-    <Authors>Solid State Programmer</Authors>
+    <Authors>Joshua Fischer</Authors>
     <Product>OnPoint</Product>
-    <PackageIcon>Bullseye64.png</PackageIcon>
-    <PackageTags>ReactiveUI, MVVM</PackageTags>
+    <PackageTags>ReactiveUI, MVVM, Wpf</PackageTags>
     <LangVersion>preview</LangVersion>
+    <PackageId>OnPoint</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Enhances the Reactive UI MVVM framework with easy to use classes for the most common use cases.</Description>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -27,7 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Universal\Universal.csproj" />
+    <ProjectReference Include="..\Universal\Universal.csproj">
+      <Private>true</Private>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>
