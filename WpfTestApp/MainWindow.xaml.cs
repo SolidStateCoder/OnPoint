@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using OnPoint.WpfCore;
+using ReactiveUI;
 using System.Reactive.Disposables;
 using System.Windows;
 
@@ -32,6 +33,9 @@ namespace OnPoint.WpfTestApp
                     .DisposeWith(disposable);
 
                 this.Bind(ViewModel, vm => vm.AppLeft, v => v.Left)
+                    .DisposeWith(disposable);
+
+                this.Bind(ViewModel, vm => vm.DisplayState, v => v.WindowState, x => x.ToWindowState(), x => x.ToAppDisplayState())
                     .DisposeWith(disposable);
             });
         }

@@ -1,4 +1,5 @@
-﻿using OnPoint.ViewModels;
+﻿using OnPoint.Universal;
+using OnPoint.ViewModels;
 using ReactiveUI;
 
 namespace OnPoint.WpfTestApp
@@ -19,8 +20,10 @@ namespace OnPoint.WpfTestApp
             AppHeight = 600;
             AppMinWidth = 400;
             AppMinHeight = 300;
+
             AppTop = 50;
             AppLeft = 50;
+            // Or: DisplayState = AppDisplayState.Maximized;
 
             Content = new MainVM();
         }

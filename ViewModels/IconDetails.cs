@@ -3,6 +3,9 @@ using ReactiveUI;
 
 namespace OnPoint.ViewModels
 {
+    /// <summary>
+    /// Models an image or icon that is displayed on the UI.
+    /// </summary>
     public abstract class IconDetails : ReactiveObject
     {
         public IconFlipOrientation Flip { get => _Flip; set => this.RaiseAndSetIfChanged(ref _Flip, value); }

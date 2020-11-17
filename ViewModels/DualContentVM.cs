@@ -8,12 +8,20 @@ using System.Threading.Tasks;
 
 namespace OnPoint.ViewModels
 {
-    // A standard VM that has one child.
+    /// <summary>
+    ///  A standard <see cref="ViewModelBase"/> that has two "children".
+    /// </summary>
+    /// <typeparam name="T">The type of the first child</typeparam>
+    /// <typeparam name="U">The type of the second child</typeparam>
     public abstract class DualContentVM<T,U> : ContentVM<T>
     {
+        /// <summary>
+        /// The second child VM.
+        /// </summary>
         public U Content2 { get => _Content2; set => this.RaiseAndSetIfChanged(ref _Content2, value); }
         private U _Content2 = default;
 
+        // IObservables that can be used to control when ICommands can be executed.
         protected IObservable<bool> WhenContent2Null { get; }
         protected IObservable<bool> WhenContent2NotNull { get; }
         protected IObservable<bool> WhenContent2Null_NotBusy { get; }

@@ -14,7 +14,10 @@ using System.Threading.Tasks;
 
 namespace OnPoint.ViewModels
 {
-    // A view model with multiple children and helper methods to maintain the collection.
+    /// <summary>
+    ///  A view model with multiple children and helper methods to maintain the collection.
+    /// </summary>
+    /// <typeparam name="T">The type of the Contents</typeparam>
     public abstract class MultiContentVM<T> : ViewModelBase
     {
         public ObsColl<T> Contents { get; } = new ObsColl<T>();
@@ -22,6 +25,11 @@ namespace OnPoint.ViewModels
 
         public T SelectedContent { get => _SelectedContent; set => this.RaiseAndSetIfChanged(ref _SelectedContent, value); }
         private T _SelectedContent = default;
+
+        /// <summary>
+        /// If <see cref="T"/> is <see cref="IIsSelected"/>, the <see cref="IIsSelected.IsSelected"/> property will be maintained on each item.
+        /// </summary>
+        protected bool MaintainContentsSelectedStatus { get; set; } = false;
 
         protected IObservable<bool> WhenSelected { get; }
         protected IObservable<bool> WhenSelected_NotBusy { get; }
@@ -204,6 +212,19 @@ namespace OnPoint.ViewModels
 
         #endregion
 
-        protected virtual void SelectedContentChanged(T item) { }
+        protected virtual void SelectedContentChanged(T item)
+        {
+            if (MaintainContentsSelectedStatus)
+            {
+                foreach (IIsSelected previousItem in Enumerable.Cast<IIsSelected>(Contents.Where(x => x is IIsSelected selectedItem && selectedItem.IsSelected)))
+                {
+                    previousItem.IsSelected = false;
+                }
+                if(item is IIsSelected selectedItem)
+                {
+                    selectedItem.IsSelected = true;
+                }
+            }
+        }
     }
 }

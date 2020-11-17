@@ -3,6 +3,11 @@ using ReactiveUI;
 
 namespace OnPoint.ViewModels
 {
+    /// <summary>
+    /// Models icons from https://github.com/MahApps/MahApps.Metro.IconPacks
+    /// </summary>
+    /// <typeparam name="TIcon">The type of the built in icon</typeparam>
+    /// <typeparam name="TForeground">The color (Brush) of the icon</typeparam>
     public class MahIconDetails<TIcon, TForeground> : IconDetails where TForeground : class
     {
         public TIcon Icon { get => _Icon; set => this.RaiseAndSetIfChanged(ref _Icon, value); }
