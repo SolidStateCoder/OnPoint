@@ -10,8 +10,8 @@
     <LangVersion>preview</LangVersion>
     <PackageId>OnPoint</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Enhances the Reactive UI MVVM framework with easy to use classes for the most common use cases.</Description>
-    <Version>1.0.1</Version>
+    <Description>Enhances the Reactive UI MVVM framework with easy to use patterns for the most common use cases.</Description>
+    <Version>1.0.5</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

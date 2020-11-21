@@ -11,7 +11,7 @@ namespace OnPoint.ViewModels
     /// A standard <see cref="ViewModelBase"/> that has one "child".
     /// </summary>
     /// <typeparam name="T">The type of the child <see cref="Content"/></typeparam>
-    public abstract class ContentVM<T> : ViewModelBase
+    public class ContentVM<T> : ViewModelBase
     {
         /// <summary>
         /// The single child VM.

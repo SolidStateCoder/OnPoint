@@ -90,7 +90,7 @@ namespace OnPoint.ViewModels
 
         protected Logger Logger { get; } = LogManager.GetCurrentClassLogger();
 
-        protected bool IsDisabledWhenBusy { get; set; } = true;
+        protected bool IsEnabledWhenBusy { get; set; } = false;
         protected bool CanActivatedBeRequested { get; set; } = false;
 
         /// <summary>
@@ -106,6 +106,7 @@ namespace OnPoint.ViewModels
         // https://reactiveui.net/docs/handbook/when-activated/
         private static readonly Dictionary<ILifetimeScope, int> _LifetimeScopeCounts = new Dictionary<ILifetimeScope, int>();
 
+        // https://www.reactiveui.net/docs/handbook/routing/
         public ViewModelBase(ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default)
         {
             ViewModelId = Interlocked.Increment(ref _IDIndex);
@@ -189,7 +190,7 @@ namespace OnPoint.ViewModels
         {
             lock (_BusyLock)
             {
-                IsEnabled = !IsDisabledWhenBusy;
+                IsEnabled = IsEnabledWhenBusy;
                 _BusyCount++;
                 IsBusy = true;
 
@@ -317,6 +318,26 @@ namespace OnPoint.ViewModels
                 await Activated(disposable);
                 IsActivated = true;
             }
+        }
+
+        protected IObservable<T> CreateAsyncObservable<T>(Func<T> funk, bool canCancel = false)
+        {
+            IObservable<T> retVal = Observable.FromAsync(ct => Task.Run(funk, ct));
+            if (canCancel)
+            {
+                retVal = retVal.TakeUntil(CancelCmd);
+            }
+            return retVal;
+        }
+
+        protected IObservable<T> CreateAsyncObservable<T>(Func<CancellationToken, Task<T>> funk, bool canCancel = false)
+        {
+            IObservable<T> retVal = Observable.FromAsync(funk);
+            if (canCancel)
+            {
+                retVal = retVal.TakeUntil(CancelCmd);
+            }
+            return retVal;
         }
     }
 }

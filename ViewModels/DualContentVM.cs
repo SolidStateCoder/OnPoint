@@ -13,7 +13,7 @@ namespace OnPoint.ViewModels
     /// </summary>
     /// <typeparam name="T">The type of the first child</typeparam>
     /// <typeparam name="U">The type of the second child</typeparam>
-    public abstract class DualContentVM<T,U> : ContentVM<T>
+    public class DualContentVM<T,U> : ContentVM<T>
     {
         /// <summary>
         /// The second child VM.
