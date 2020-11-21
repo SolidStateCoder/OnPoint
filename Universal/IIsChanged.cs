@@ -1,6 +1,8 @@
-﻿namespace OnPoint.Universal
+﻿using System.ComponentModel;
+
+namespace OnPoint.Universal
 {
-    public interface IIsChanged
+    public interface IIsChanged : INotifyPropertyChanged
     {
         /// <summary>
         /// Indicates the item has changed since its creation.

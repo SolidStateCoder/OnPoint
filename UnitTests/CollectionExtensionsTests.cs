@@ -20,10 +20,12 @@ namespace OnPoint.UnitTests
         [SetUp]
         public void Setup()
         {
+            _Hello = new List<string>();
+            _Space = new List<string>();
             _Hello.Add("Hello World");
+            _Null = new List<string>();
             _Space.Add(" ");
             _Null.Add(null);
-
         }
 
         [Test]

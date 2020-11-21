@@ -18,7 +18,7 @@ namespace OnPoint.ViewModels
     ///  A view model with multiple children and helper methods to maintain the collection.
     /// </summary>
     /// <typeparam name="T">The type of the Contents</typeparam>
-    public abstract class MultiContentVM<T> : ViewModelBase
+    public class MultiContentVM<T> : ViewModelBase
     {
         public ObsColl<T> Contents { get; } = new ObsColl<T>();
         public ObsColl<T> SelectedContents { get; } = new ObsColl<T>();

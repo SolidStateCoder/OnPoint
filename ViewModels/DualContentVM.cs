@@ -13,7 +13,7 @@ namespace OnPoint.ViewModels
     /// </summary>
     /// <typeparam name="T">The type of the first child</typeparam>
     /// <typeparam name="U">The type of the second child</typeparam>
-    public abstract class DualContentVM<T,U> : ContentVM<T>
+    public class DualContentVM<T,U> : ContentVM<T>
     {
         /// <summary>
         /// The second child VM.
@@ -50,12 +50,12 @@ namespace OnPoint.ViewModels
 
         protected async override Task<ExecutionResultMessage> Activated(CompositeDisposable disposable)
         {
-            this.WhenAnyValue(vm => vm.Content)
-                .Subscribe(ContentHasChanged);
+            this.WhenAnyValue(vm => vm.Content2)
+                .Subscribe(Content2HasChanged);
 
             return await base.Activated(disposable);
         }
 
-        protected virtual void ContentHasChanged(T content) { }
+        protected virtual void Content2HasChanged(U content2) { }
     }
 }
