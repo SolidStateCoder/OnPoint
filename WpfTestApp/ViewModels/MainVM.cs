@@ -12,6 +12,9 @@ namespace OnPoint.WpfTestApp
         public CommandVM LoadLettersCmdVM { get => _LoadLettersCmdVM; set => this.RaiseAndSetIfChanged(ref _LoadLettersCmdVM, value); }
         private CommandVM _LoadLettersCmdVM = default;
 
+        public PeopleVM PeopleVM { get => _PeopleVM; set => this.RaiseAndSetIfChanged(ref _PeopleVM, value); }
+        private PeopleVM _PeopleVM = default;
+
         public MainVM()
         {
             LoadNumbersCmdVM = new CommandVM(ReactiveCommand.Create(LoadNumbers, WhenContentNull_NotBusy), 
@@ -19,6 +22,8 @@ namespace OnPoint.WpfTestApp
 
             LoadLettersCmdVM = new CommandVM(ReactiveCommand.Create(LoadLetters, WhenContent2Null_NotBusy), 
                 90, 24, "Load Letters", null, "Click this to load Letters");
+
+            PeopleVM = new PeopleVM(new PersonService());
         }
 
         private void LoadNumbers() => Content = new NumbersVM();

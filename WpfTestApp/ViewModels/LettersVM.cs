@@ -21,6 +21,7 @@ namespace OnPoint.WpfTestApp
 
         public LettersVM()
         {
+            Title = "Letters";
             RefreshCmd = ReactiveCommand.CreateFromObservable(() =>
                 Observable.FromAsync(ct => LoadLettersAsync(ct))
                     .TakeUntil(CancelCmd));

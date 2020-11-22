@@ -19,6 +19,7 @@
                 <Button x:Name="RefreshButton" Style="{StaticResource TextButton}" />
             </StackPanel>
             <TextBlock DockPanel.Dock="Bottom" x:Name="SelectedLetterText" Margin="4" />
+            
             <!-- Because of a bug in Reactive UI, the ItemsSource and SelectedItem bindings must be set in XAML -->
             <ListBox x:Name="LetterList" ItemsSource="{Binding Contents}" SelectedItem="{Binding SelectedContent}" Margin="2" />
         </DockPanel>

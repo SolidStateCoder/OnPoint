@@ -52,10 +52,10 @@ namespace OnPoint.ViewModels
         public bool IsSelected { get => _IsSelected; set => this.RaiseAndSetIfChanged(ref _IsSelected, value); }
         private bool _IsSelected = false;
 
-        public bool IsShowingErrorMessage { get { return _IsShowingErrorMessage.Value; } }
+        public bool IsShowingErrorMessage { get { return _IsShowingErrorMessage?.Value ?? false; } }
         private ObservableAsPropertyHelper<bool> _IsShowingErrorMessage = default;
 
-        public bool IsShowingHUDMessage { get { return _IsShowingHUDMessage.Value; } }
+        public bool IsShowingHUDMessage { get { return _IsShowingHUDMessage?.Value ?? false; } }
         private ObservableAsPropertyHelper<bool> _IsShowingHUDMessage = default;
 
         public string ErrorMessage { get => _ErrorMessage; set => this.RaiseAndSetIfChanged(ref _ErrorMessage, value); }
@@ -92,6 +92,23 @@ namespace OnPoint.ViewModels
 
         protected bool IsEnabledWhenBusy { get; set; } = false;
         protected bool CanActivatedBeRequested { get; set; } = false;
+
+#if DEBUG
+        private static string NL { get; } = Environment.NewLine;
+        public virtual string DebugOutput =>
+            $"Title: {Title}{NL}" +
+            $"IsEnabled: {IsEnabled}{NL}" +
+            $"IsVisible: {IsVisible}{NL}" +
+            $"IsBusy: {IsBusy}{NL}" +
+            $"IsActivated: {IsActivated}{NL}" +
+            $"IsSelected: {IsSelected}{NL}" +
+            $"IsShowingErrorMessage: {IsShowingErrorMessage}{NL}" +
+            $"IsShowingHUDMessage: {IsShowingHUDMessage}{NL}" +
+            $"IsCancelEnabled: {IsCancelEnabled}{NL}" +
+            $"BusyMessage: {BusyMessage}{NL}" +
+            $"HUDMessage: {HUDMessage}{NL}" +
+            $"ErrorMessage: {ErrorMessage}{NL}";
+#endif
 
         /// <summary>
         /// Used by Reactive UI to activate this view model when it enters the visual tree. It should be not touched.
@@ -179,6 +196,25 @@ namespace OnPoint.ViewModels
                             }
                         })
                         .DisposeWith(disposable);
+
+#if DEBUG
+                    Observable.Merge(
+                        this.WhenAnyValue(x => x.Title).Select(_ => Unit.Default),
+                        this.WhenAnyValue(x => x.IsEnabled).Select(_ => Unit.Default),
+                        this.WhenAnyValue(x => x.IsVisible).Select(_ => Unit.Default),
+                        this.WhenAnyValue(x => x.IsBusy).Select(_ => Unit.Default),
+                        this.WhenAnyValue(x => x.IsActivated).Select(_ => Unit.Default),
+                        this.WhenAnyValue(x => x.IsSelected).Select(_ => Unit.Default),
+                        this.WhenAnyValue(x => x.IsShowingErrorMessage).Select(_ => Unit.Default),
+                        this.WhenAnyValue(x => x.IsShowingHUDMessage).Select(_ => Unit.Default),
+                        this.WhenAnyValue(x => x.IsCancelEnabled).Select(_ => Unit.Default),
+                        this.WhenAnyValue(x => x.BusyMessage).Select(_ => Unit.Default),
+                        this.WhenAnyValue(x => x.HUDMessage).Select(_ => Unit.Default),
+                        this.WhenAnyValue(x => x.ErrorMessage).Select(_ => Unit.Default)
+                        )
+                        .Subscribe(_ => this.RaisePropertyChanged(nameof(DebugOutput)))
+                        .DisposeWith(disposable);
+#endif
 
                     IsActivated = true;
                 });
