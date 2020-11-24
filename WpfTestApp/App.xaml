@@ -12,77 +12,84 @@
                 <ResourceDictionary Source="pack://application:,,,/OnPoint.WpfCore;component/MahAppsIconTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-        <!-- A borderless and background-less button. -->
-        <Style x:Key="TextButton" TargetType="{x:Type ButtonBase}">
-            <Style.Triggers>
+            <!-- A borderless and background-less button. -->
+            <Style x:Key="BlankButton" TargetType="{x:Type ButtonBase}">
+                <Style.Triggers>
 
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Opacity" Value=".4" />
-                </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value=".4" />
+                    </Trigger>
 
-                <Trigger Property="IsMouseOver" Value="False">
-                    <Setter Property="Background" Value="Transparent"/>
-                </Trigger>
+                    <Trigger Property="IsMouseOver" Value="False">
+                        <Setter Property="Background" Value="Transparent"/>
+                    </Trigger>
 
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#CDE6F7"/>
-                    <Setter Property="Cursor" Value="Hand"/>
-                </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#CDE6F7"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                    </Trigger>
 
-            </Style.Triggers>
+                </Style.Triggers>
 
-            <Setter Property="Command" Value="{Binding Command}" />
-            <Setter Property="CommandParameter" Value="{Binding CommandParameter}" />
-            <Setter Property="Content" Value="{Binding CommandText}"/>
-            <Setter Property="ToolTip" Value="{Binding ToolTip}" />
-            <Setter Property="Width" Value="{Binding Width}" />
-            <Setter Property="Height" Value="{Binding Height}" />
+                <Setter Property="Command" Value="{Binding Command}" />
+                <Setter Property="CommandParameter" Value="{Binding CommandParameter}" />
+                <Setter Property="Content" Value="{Binding CommandText}"/>
+                <Setter Property="ToolTip" Value="{Binding ToolTip}" />
+                <Setter Property="Width" Value="{Binding Width}" />
+                <Setter Property="Height" Value="{Binding Height}" />
+            </Style>
+            
 
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ButtonBase">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="6" BorderThickness="1" BorderBrush="DimGray">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <Style x:Key="TextButton" BasedOn="{StaticResource BlankButton}" TargetType="{x:Type ButtonBase}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ButtonBase">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="6" BorderThickness="1" BorderBrush="DimGray">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
 
-        <Style x:Key="ImageButton" BasedOn="{StaticResource TextButton}" TargetType="{x:Type ButtonBase}">
-            <Setter Property="Content">
-                <Setter.Value>
-                    <DockPanel>
-                        <Wpf:Icon DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <TextBlock Text="{Binding CommandText}" Margin="4,0,0,0" VerticalAlignment="Center" />
-                    </DockPanel>
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <Style x:Key="ImageButton" BasedOn="{StaticResource BlankButton}" TargetType="{x:Type ButtonBase}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ButtonBase">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="6" BorderThickness="1" BorderBrush="DimGray">
+                                <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Wpf:Icon DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding CommandText}" Margin="8,0,0,0" VerticalAlignment="Center" />
+                                </DockPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
-        
-        <Wpf:VisibilityConverter x:Key="VisibilityBool" />
 
-        <DataTemplate DataType="{x:Type OPTest:RootVM}">
-            <OPTest:RootView />
-        </DataTemplate>
+            <Wpf:VisibilityConverter x:Key="VisibilityBool" />
 
-        <DataTemplate DataType="{x:Type OPTest:MainVM}">
-            <OPTest:MainView />
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type OPTest:RootVM}">
+                <OPTest:RootView />
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type OPTest:PeopleVM}">
-            <OPTest:PeopleView />
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type OPTest:MainVM}">
+                <OPTest:MainView />
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type OPTest:NumbersVM}">
-            <OPTest:NumbersView />
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type OPTest:PeopleVM}">
+                <OPTest:PeopleView />
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type OPTest:LettersVM}">
-            <OPTest:LettersView />
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type OPTest:NumbersVM}">
+                <OPTest:NumbersView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type OPTest:LettersVM}">
+                <OPTest:LettersView />
+            </DataTemplate>
 
         </ResourceDictionary>
     </Application.Resources>

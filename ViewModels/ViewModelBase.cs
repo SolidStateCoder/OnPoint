@@ -37,7 +37,7 @@ namespace OnPoint.ViewModels
         public string BusyMessage { get => _BusyMessage; set => this.RaiseAndSetIfChanged(ref _BusyMessage, value); }
         private string _BusyMessage = "Loading...";
 
-        public string BusyMessageOverride { get => _BusyMessageOverride; set => this.RaiseAndSetIfChanged(ref _BusyMessageOverride, value); }
+        public string BusyMessageOverride { get => _BusyMessageOverride; private set => this.RaiseAndSetIfChanged(ref _BusyMessageOverride, value); }
         private string _BusyMessageOverride = default;
 
         public string HUDMessage { get => _HUDMessage; set => this.RaiseAndSetIfChanged(ref _HUDMessage, value); }
@@ -314,6 +314,10 @@ namespace OnPoint.ViewModels
                 .Select(x => x.IsSomething())
                 .ToProperty(this, x => x.IsShowingHUDMessage, false, true, RxApp.MainThreadScheduler);
 
+            this.WhenAnyValue(vm => vm.IsBusy)
+                .Subscribe(_ => { BusyMessageOverride = GetBusyOverrideMessage(); })
+                .DisposeWith(disposable);
+
             return ExecutionResultMessage.Success;
         }
 
@@ -375,5 +379,7 @@ namespace OnPoint.ViewModels
             }
             return retVal;
         }
+
+        protected virtual string GetBusyOverrideMessage() => null;
     }
 }

@@ -21,15 +21,15 @@ namespace OnPoint.ViewModels
             CrudService = crudService;
         }
 
-        protected override async Task<T> AddNewItemAsync(CancellationToken token)
-        {
-            BusyMessageOverride = "Adding...";
-            return await CrudService.CreateNewItemAsync(token);
-        }
-
-        protected async override Task<bool> DelectItemAsync(CancellationToken token, T item) => await CrudService.DeleteItemAsync(token, item);
-        protected async override Task<IEnumerable<T>> SaveChangedItemsAsync(CancellationToken token) => await CrudService.SaveItemsAsync(token, Contents.Where(x => x.IsChanged));
-        protected async override Task<IEnumerable<T>> RefreshItemsAsync(CancellationToken token) => await CrudService.RefreshItemsAsync(token);
+        protected override async Task<T> CreateNewItemAsync(CancellationToken token) => await CrudService.CreateNewItemAsync(token);
+        protected async override Task<bool> DeleteItemAsync(CancellationToken token, T item) => await CrudService.DeleteItemAsync(token, item);
+        protected async override Task<T> SaveItemAsync(CancellationToken token, T item) => await CrudService.SaveItemAsync(token, item);
+        protected async override Task<IEnumerable<T>> SaveChangedItemsAsync(CancellationToken token) => await CrudService.SaveChangedItemsAsync(token, Contents.Where(x => x.IsChanged));
         protected async override Task<IEnumerable<T>> SearchItemsAsync(CancellationToken token, params Expression<Func<T, bool>>[] filters) => await CrudService.SearchItemsAsync(token, filters);
+        protected async override Task<IEnumerable<T>> RefreshItemsAsync(CancellationToken token)
+        {
+            SelectedContent = null;
+            return await CrudService.RefreshItemsAsync(token);
+        }
     }
 }

@@ -75,20 +75,15 @@ namespace OnPoint.WpfCore
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             PackIconFlipOrientation retVal = PackIconFlipOrientation.Normal;
-            if (value is IconFlipOrientation)
+            if (value is IconFlipOrientation flipOrientation)
             {
-                switch ((IconFlipOrientation)value)
+                retVal = flipOrientation switch
                 {
-                    case IconFlipOrientation.Horizontal:
-                        retVal = PackIconFlipOrientation.Horizontal;
-                        break;
-                    case IconFlipOrientation.Vertical:
-                        retVal = PackIconFlipOrientation.Vertical;
-                        break;
-                    case IconFlipOrientation.Both:
-                        retVal = PackIconFlipOrientation.Both;
-                        break;
-                }
+                    IconFlipOrientation.Horizontal => PackIconFlipOrientation.Horizontal,
+                    IconFlipOrientation.Vertical => PackIconFlipOrientation.Vertical,
+                    IconFlipOrientation.Both => PackIconFlipOrientation.Both,
+                    _ => PackIconFlipOrientation.Normal
+                };
             }
             return retVal;
         }
@@ -96,20 +91,16 @@ namespace OnPoint.WpfCore
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             IconFlipOrientation retVal = IconFlipOrientation.Normal;
-            if (value is PackIconFlipOrientation)
+            if (value is PackIconFlipOrientation flipOrientation)
             {
-                switch ((PackIconFlipOrientation)value)
+                retVal = flipOrientation switch
                 {
-                    case PackIconFlipOrientation.Horizontal:
-                        retVal = IconFlipOrientation.Horizontal;
-                        break;
-                    case PackIconFlipOrientation.Vertical:
-                        retVal = IconFlipOrientation.Vertical;
-                        break;
-                    case PackIconFlipOrientation.Both:
-                        retVal = IconFlipOrientation.Both;
-                        break;
-                }
+                    PackIconFlipOrientation.Horizontal => IconFlipOrientation.Horizontal,
+                    PackIconFlipOrientation.Vertical => IconFlipOrientation.Vertical,
+                    PackIconFlipOrientation.Both => IconFlipOrientation.Both,
+                    PackIconFlipOrientation.Normal => IconFlipOrientation.Normal,
+                    _ => IconFlipOrientation.Normal
+                };
             }
             return retVal;
         }
