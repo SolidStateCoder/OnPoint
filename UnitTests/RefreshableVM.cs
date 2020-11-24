@@ -16,7 +16,7 @@ namespace OnPoint.UnitTests
         private int _Counter = 0;
         public ReactiveCommand<Unit, string> RefreshCmd { get; set; }
 
-        public bool IsRefreshing { get { return _IsRefreshing?.Value ?? false } }
+        public bool IsRefreshing { get => _IsRefreshing?.Value ?? false; }
         readonly ObservableAsPropertyHelper<bool> _IsRefreshing = default;
 
         public RefreshableVM()

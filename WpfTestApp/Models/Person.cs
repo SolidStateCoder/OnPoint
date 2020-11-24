@@ -9,6 +9,9 @@ namespace OnPoint.WpfTestApp
 {
     public class Person : ChangeableObject
     {
+        public int ID { get => _ID; set => this.RaiseAndSetIfChanged(ref _ID, value); }
+        private int _ID = default;
+
         public string FirstName { get => _FirstName; set => this.RaiseAndSetIfChanged(ref _FirstName, value); }
         private string _FirstName = default;
 
@@ -29,8 +32,9 @@ namespace OnPoint.WpfTestApp
             .Subscribe(_ => IsChanged = true);
         }
 
-        public Person(string firstName, string lastName, PackIconMaterialKind icon) : this()
+        public Person(int id, string firstName, string lastName, PackIconMaterialKind icon) : this()
         {
+            ID = id;
             FirstName = firstName;
             LastName = lastName;
             Icon = icon;

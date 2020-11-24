@@ -13,6 +13,11 @@ namespace OnPoint.ViewModels
 {
     public abstract class CrudVM<T> : MultiContentIsChangedVM<T> where T : class, IIsChanged
     {
+        public string SearchTerm { get => _SearchTerm; set => this.RaiseAndSetIfChanged(ref _SearchTerm, value); }
+        private string _SearchTerm = default;
+
+        #region Command VMs
+
         public CommandVM AddNewItemCmdVM { get => _AddNewItemCmd; set => this.RaiseAndSetIfChanged(ref _AddNewItemCmd, value); }
         private CommandVM _AddNewItemCmd = default;
 
@@ -28,14 +33,19 @@ namespace OnPoint.ViewModels
         public CommandVM SearchItemsCmdVM { get => _SearchItemsCmdVM; set => this.RaiseAndSetIfChanged(ref _SearchItemsCmdVM, value); }
         private CommandVM _SearchItemsCmdVM = default;
 
-        public string SearchTerm { get => _SearchTerm; set => this.RaiseAndSetIfChanged(ref _SearchTerm, value); }
-        private string _SearchTerm = default;
+        #endregion
+
+        #region Commands
 
         public ReactiveCommand<Unit, T> AddNewItemCmd { get; private set; }
         public ReactiveCommand<T, bool> DeleteItemCmd { get; private set; }
         public ReactiveCommand<Unit, IEnumerable<T>> SaveChangedItemsCmd { get; private set; }
         public ReactiveCommand<Unit, IEnumerable<T>> RefreshItemsCmd { get; private set; }
         public ReactiveCommand<Unit, IEnumerable<T>> SearchItemsCmd { get; private set; }
+
+        #endregion
+
+        #region State
 
         public bool IsAddingNewItem { get => _IsAddingNewItem?.Value ?? false; }
         private ObservableAsPropertyHelper<bool> _IsAddingNewItem = default;
@@ -69,6 +79,10 @@ namespace OnPoint.ViewModels
             $"IsSearchingItems: {IsSearchingItems}{NL}";
 #endif
 
+        #endregion
+
+        #region Config
+
         public CrudVM()
         {
             WhenSearchTerm_NotBusy = this.WhenAnyValue(vm => vm.SearchTerm, vm => vm.IsBusy, (x, y) => !x.IsNothing() && !y);
@@ -80,7 +94,7 @@ namespace OnPoint.ViewModels
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(AddNewItemComplete);
             AddNewItemCmd.IsExecuting.ToProperty(this, nameof(_IsAddingNewItem));
-            AddNewItemCmdVM = new CommandVM(AddNewItemCmd, 70, 24, "Add", null, "Click this to add a new item");
+            AddNewItemCmdVM = CreateAddNewItemCmdVM(AddNewItemCmd, 90, 24, "Add", "Click this to add a new item");
 
             DeleteItemCmd = ReactiveCommand.CreateFromObservable((T x) =>
                 CreateAsyncObservable(() => false, CanDeleteItemBeCancelled)
@@ -89,7 +103,7 @@ namespace OnPoint.ViewModels
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(DeleteItemComplete);
             DeleteItemCmd.IsExecuting.ToProperty(this, nameof(_IsDeletingItem));
-            DeleteItemCmdVM = new CommandVM(DeleteItemCmd, 70, 24, "Delete", null, "Click this to delete the selected item");
+            DeleteItemCmdVM = CreateDeleteItemCmdVM(DeleteItemCmd, 90, 24, "Delete", "Click this to delete the selected item");
 
             SaveChangedItemsCmd = ReactiveCommand.CreateFromObservable(() =>
                 CreateAsyncObservable(() => (IEnumerable<T>)new List<T>(), CanSavingChangedItemsBeCancelled)
@@ -98,25 +112,25 @@ namespace OnPoint.ViewModels
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(SaveChangedItemsComplete);
             SaveChangedItemsCmd.IsExecuting.ToProperty(this, nameof(_IsSavingChangedItems));
-            SaveChangedItemsCmdVM = new CommandVM(DeleteItemCmd, 70, 24, "Save", null, "Click this to save the items that have changes");
+            SaveChangedItemsCmdVM = CreateSaveChangedItemsCmdVM(SaveChangedItemsCmd, 90, 24, "Save", "Click this to save the items that have changes");
 
             RefreshItemsCmd = ReactiveCommand.CreateFromObservable(() =>
-                CreateAsyncObservable(RefreshItems, CanRefreshingItemsBeCancelled)
+                CreateAsyncObservable(RefreshItemsAsync, CanRefreshingItemsBeCancelled)
                 , CanRefreshItems());
             RefreshItemsCmd
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(RefreshItemsComplete);
             RefreshItemsCmd.IsExecuting.ToProperty(this, nameof(_IsRefreshingItems));
-            RefreshItemsCmdVM = new CommandVM(RefreshItemsCmd, 70, 24, "Refresh", null, "Click this to reload the items");
+            RefreshItemsCmdVM = CreateRefreshItemsCmdVM(RefreshItemsCmd, 90, 24, "Refresh", "Click this to reload the items");
 
             SearchItemsCmd = ReactiveCommand.CreateFromObservable(() =>
-                CreateAsyncObservable(() => SearchItems(), CanSearchingItemsBeCancelled)
+                CreateAsyncObservable(x => SearchItemsAsync(x, GetSearchCriteria().ToArray()), CanSearchingItemsBeCancelled)
                 , CanSearchItems());
             SearchItemsCmd
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(SearchItemsComplete);
             SearchItemsCmd.IsExecuting.ToProperty(this, nameof(_IsSearchingItems));
-            SearchItemsCmdVM = new CommandVM(SearchItemsCmd, 70, 24, "Search", null, "Click this to search the items");
+            SearchItemsCmdVM = CreateSearchItemsCmdVM(SearchItemsCmd, 90, 24, "Search", "Click this to search the items");
         }
 
         protected override Task<ExecutionResultMessage> Activated(CompositeDisposable disposable)
@@ -146,7 +160,7 @@ namespace OnPoint.ViewModels
 
         protected override IList<IObservable<bool>> GetCancellableCommads()
         {
-            IList < IObservable<bool> > retVal = base.GetCancellableCommads();
+            IList<IObservable<bool>> retVal = base.GetCancellableCommads();
             if (CanAddNewItemBeCancelled) retVal.Add(AddNewItemCmd.IsExecuting);
             if (CanDeleteItemBeCancelled) retVal.Add(DeleteItemCmd.IsExecuting);
             if (CanSavingChangedItemsBeCancelled) retVal.Add(SaveChangedItemsCmd.IsExecuting);
@@ -155,23 +169,62 @@ namespace OnPoint.ViewModels
             return retVal;
         }
 
+        #endregion
+
+        #region Command VM overrides
+
         protected virtual IObservable<bool> CanAddNewItem() => WhenNotBusy;
         protected virtual IObservable<bool> CanDeleteItem() => WhenSelected_NotBusy;
         protected virtual IObservable<bool> CanSaveChangedItems() => WhenHasChanges_NotBusy;
         protected virtual IObservable<bool> CanRefreshItems() => WhenNotBusy;
         protected virtual IObservable<bool> CanSearchItems() => WhenSearchTerm_NotBusy;
 
-        protected virtual List<Expression<Func<T, bool>>[]> GetSearchCriteria() => new List<Expression<Func<T, bool>>[]>();
+        protected virtual CommandVM CreateAddNewItemCmdVM(ReactiveCommand<Unit, T> addNewItemCmd, int width, int height, string commandText, string tooltip) =>
+            new CommandVM(addNewItemCmd, width, height, commandText, GetAddNewItemIconDetails(), tooltip);
 
-        protected virtual async Task<T> AddNewItemAsync(CancellationToken token) => default(T);
+        protected virtual IconDetails GetAddNewItemIconDetails() => null;
+
+        protected virtual CommandVM CreateDeleteItemCmdVM(ReactiveCommand<T, bool> deleteItemCmd, int width, int height, string commandText, string tooltip) =>
+            new CommandVM(deleteItemCmd, width, height, commandText, GetDeleteItemIconDetails(), tooltip);
+
+        protected virtual IconDetails GetDeleteItemIconDetails() => null;
+
+        protected virtual CommandVM CreateSaveChangedItemsCmdVM(ReactiveCommand<Unit, IEnumerable<T>> saveChangedItemsCmd, int width, int height, string commandText, string tooltip) =>
+            new CommandVM(saveChangedItemsCmd, width, height, commandText, GetSaveChangedItemsIconDetails(), tooltip);
+
+        protected virtual IconDetails GetSaveChangedItemsIconDetails() => null;
+
+        protected virtual CommandVM CreateRefreshItemsCmdVM(ReactiveCommand<Unit, IEnumerable<T>> refreshItemsCmd, int width, int height, string commandText, string tooltip) =>
+            new CommandVM(refreshItemsCmd, width, height, commandText, GetRefreshItemsIconDetails(), tooltip);
+
+        protected virtual IconDetails GetRefreshItemsIconDetails() => null;
+
+        protected virtual CommandVM CreateSearchItemsCmdVM(ReactiveCommand<Unit, IEnumerable<T>> searchItemsCmd, int width, int height, string commandText, string tooltip) =>
+            new CommandVM(searchItemsCmd, width, height, commandText, GetSearchItemsIconDetails(), tooltip);
+
+        protected virtual IconDetails GetSearchItemsIconDetails() => null;
+
+        #endregion
+
+        protected virtual List<Expression<Func<T, bool>>> GetSearchCriteria() => new List<Expression<Func<T, bool>>>();
+
+        protected virtual async Task<T> AddNewItemAsync(CancellationToken token)
+        {
+            BusyMessageOverride = "Adding...";
+            return await Task.Run(() => default(T));
+        }
         protected virtual void AddNewItemComplete(T item) => Contents.Add(item);
-        protected virtual bool DelectItem(T item) => false;
+
+        protected async virtual Task<bool> DelectItemAsync(CancellationToken token, T item) => await Task.Run(() => false);
         protected virtual void DeleteItemComplete(bool result) => RefreshItemsCmd.Execute().Subscribe();
-        protected virtual IEnumerable<T> SaveChangedItems() => new List<T>();
+
+        protected async virtual Task<IEnumerable<T>> SaveChangedItemsAsync(CancellationToken token) => await Task.Run(() => new List<T>());
         protected virtual void SaveChangedItemsComplete(IEnumerable<T> items) { }
-        protected virtual IEnumerable<T> RefreshItems() => new List<T>();
+
+        protected async virtual Task<IEnumerable<T>> RefreshItemsAsync(CancellationToken token) => await Task.Run(() => new List<T>());
         protected virtual void RefreshItemsComplete(IEnumerable<T> items) => ClearAndAddContents(items);
-        protected virtual IEnumerable<T> SearchItems(params Expression<Func<T, bool>>[] filters) => new List<T>();
+
+        protected async virtual Task<IEnumerable<T>> SearchItemsAsync(CancellationToken token, params Expression<Func<T, bool>>[] filters) => await Task.Run(() => new List<T>());
         protected virtual void SearchItemsComplete(IEnumerable<T> items) => ClearAndAddContents(items);
     }
 }

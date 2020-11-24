@@ -4,6 +4,7 @@ using DynamicData.Binding;
 using OnPoint.Universal;
 using ReactiveUI;
 using System;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -53,6 +54,14 @@ namespace OnPoint.ViewModels
             return await base.Activated(disposable);
         }
 
-        protected virtual void ContentHasChanged(T item) => HasChangedContents = true;
+        protected virtual void ContentHasChanged(T item) => SetHasChangedContents();
+
+        protected override void ContentsChanged(IChangeSet<T> changeSet)
+        {
+            base.ContentsChanged(changeSet);
+            SetHasChangedContents();
+        }
+
+        private void SetHasChangedContents() => HasChangedContents = Contents.Any(x => x.IsChanged);
     }
 }

@@ -11,6 +11,8 @@
                 </TextBlock.LayoutTransform>
             </TextBlock>
         </Expander.Header>
-        <TextBlock Text="{Binding DebugOutput}" TextWrapping="Wrap" Margin="2" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="2">
+            <TextBlock Text="{Binding DebugOutput}" TextWrapping="Wrap" />
+        </ScrollViewer>
     </Expander>
 </UserControl>

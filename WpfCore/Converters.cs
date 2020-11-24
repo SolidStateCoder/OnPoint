@@ -69,6 +69,53 @@ namespace OnPoint.WpfCore
     }
 
 
+    [ValueConversion(typeof(IconFlipOrientation), typeof(PackIconFlipOrientation))]
+    public class MahIconFlipConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            PackIconFlipOrientation retVal = PackIconFlipOrientation.Normal;
+            if (value is IconFlipOrientation)
+            {
+                switch ((IconFlipOrientation)value)
+                {
+                    case IconFlipOrientation.Horizontal:
+                        retVal = PackIconFlipOrientation.Horizontal;
+                        break;
+                    case IconFlipOrientation.Vertical:
+                        retVal = PackIconFlipOrientation.Vertical;
+                        break;
+                    case IconFlipOrientation.Both:
+                        retVal = PackIconFlipOrientation.Both;
+                        break;
+                }
+            }
+            return retVal;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            IconFlipOrientation retVal = IconFlipOrientation.Normal;
+            if (value is PackIconFlipOrientation)
+            {
+                switch ((PackIconFlipOrientation)value)
+                {
+                    case PackIconFlipOrientation.Horizontal:
+                        retVal = IconFlipOrientation.Horizontal;
+                        break;
+                    case PackIconFlipOrientation.Vertical:
+                        retVal = IconFlipOrientation.Vertical;
+                        break;
+                    case PackIconFlipOrientation.Both:
+                        retVal = IconFlipOrientation.Both;
+                        break;
+                }
+            }
+            return retVal;
+        }
+    }
+
+
     public class MahIconToImageConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -86,33 +133,89 @@ namespace OnPoint.WpfCore
                 Pen = new Pen(brush, .25)
             };
 
-            if (value is PackIconFontAwesomeKind)
+            if (value is PackIconBootstrapIconsKind)
             {
-                geoDrawing.Geometry = Geometry.Parse(new PackIconFontAwesome() { Kind = (PackIconFontAwesomeKind)value }.Data);
+                geoDrawing.Geometry = Geometry.Parse(new PackIconBootstrapIcons() { Kind = (PackIconBootstrapIconsKind)value }.Data);
             }
-            else if (value is PackIconMaterialKind)
+            else if (value is PackIconBoxIconsKind)
             {
-                geoDrawing.Geometry = Geometry.Parse(new PackIconMaterial() { Kind = (PackIconMaterialKind)value }.Data);
-            }
-            else if (value is PackIconMaterialLightKind)
-            {
-                geoDrawing.Geometry = Geometry.Parse(new PackIconMaterialLight() { Kind = (PackIconMaterialLightKind)value }.Data);
-            }
-            else if (value is PackIconModernKind)
-            {
-                geoDrawing.Geometry = Geometry.Parse(new PackIconModern() { Kind = (PackIconModernKind)value }.Data);
+                geoDrawing.Geometry = Geometry.Parse(new PackIconBoxIcons() { Kind = (PackIconBoxIconsKind)value }.Data);
             }
             else if (value is PackIconEntypoKind)
             {
                 geoDrawing.Geometry = Geometry.Parse(new PackIconEntypo() { Kind = (PackIconEntypoKind)value }.Data);
             }
+            else if (value is PackIconEvaIconsKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconEvaIcons() { Kind = (PackIconEvaIconsKind)value }.Data);
+            }
+            else if (value is PackIconFeatherIconsKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconFeatherIcons() { Kind = (PackIconFeatherIconsKind)value }.Data);
+            }
+            else if (value is PackIconFontAwesomeKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconFontAwesome() { Kind = (PackIconFontAwesomeKind)value }.Data);
+            }
+            else if (value is PackIconIoniconsKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconIonicons() { Kind = (PackIconIoniconsKind)value }.Data);
+            }
+            else if (value is PackIconJamIconsKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconJamIcons() { Kind = (PackIconJamIconsKind)value }.Data);
+            }
+            else if (value is PackIconMaterialKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconMaterial() { Kind = (PackIconMaterialKind)value }.Data);
+            }
+            else if (value is PackIconMaterialDesignKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconMaterialDesign() { Kind = (PackIconMaterialDesignKind)value }.Data);
+            }
+            else if (value is PackIconMaterialLightKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconMaterialLight() { Kind = (PackIconMaterialLightKind)value }.Data);
+            }
+            else if (value is PackIconMicronsKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconMicrons() { Kind = (PackIconMicronsKind)value }.Data);
+            }
+            else if (value is PackIconModernKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconModern() { Kind = (PackIconModernKind)value }.Data);
+            }
             else if (value is PackIconOcticonsKind)
             {
                 geoDrawing.Geometry = Geometry.Parse(new PackIconOcticons() { Kind = (PackIconOcticonsKind)value }.Data);
             }
+            else if (value is PackIconPicolIconsKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconPicolIcons() { Kind = (PackIconPicolIconsKind)value }.Data);
+            }
+            else if (value is PackIconRPGAwesomeKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconRPGAwesome() { Kind = (PackIconRPGAwesomeKind)value }.Data);
+            }
             else if (value is PackIconSimpleIconsKind)
             {
                 geoDrawing.Geometry = Geometry.Parse(new PackIconSimpleIcons() { Kind = (PackIconSimpleIconsKind)value }.Data);
+            }
+            else if (value is PackIconTypiconsKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconTypicons() { Kind = (PackIconTypiconsKind)value }.Data);
+            }
+            else if (value is PackIconUniconsKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconUnicons() { Kind = (PackIconUniconsKind)value }.Data);
+            }
+            else if (value is PackIconWeatherIconsKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconWeatherIcons() { Kind = (PackIconWeatherIconsKind)value }.Data);
+            }
+            else if (value is PackIconZondiconsKind)
+            {
+                geoDrawing.Geometry = Geometry.Parse(new PackIconZondicons() { Kind = (PackIconZondiconsKind)value }.Data);
             }
 
             return new DrawingImage { Drawing = new DrawingGroup { Children = { geoDrawing } } };

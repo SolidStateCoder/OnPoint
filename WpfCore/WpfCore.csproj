@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
     <AssemblyName>OnPoint.WpfCore</AssemblyName>
     <RootNamespace>OnPoint.WpfCore</RootNamespace>
   </PropertyGroup>
@@ -15,6 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="MahAppsIconTemplates.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.8.0" />
     <PackageReference Include="NodaTime" Version="3.0.3" />
     <PackageReference Include="ReactiveUI" Version="12.1.5" />
@@ -23,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Universal\Universal.csproj" />
+    <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

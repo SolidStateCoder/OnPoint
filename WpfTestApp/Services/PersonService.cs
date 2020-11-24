@@ -14,10 +14,11 @@ namespace OnPoint.WpfTestApp
     {
         private List<Person> _People = new List<Person>();
         private int _IconIndex = 14;
+        private int _IdIndex = 1;
 
         public PersonService()
         {
-            _People.Add(new Person("John", "Doe", (PackIconMaterialKind)_IconIndex++));
+            _People.Add(new Person(_IdIndex++, "John", "Doe", (PackIconMaterialKind)_IconIndex++));
         }
 
         public async Task<Person> CreateNewItemAsync(CancellationToken token)
@@ -26,8 +27,9 @@ namespace OnPoint.WpfTestApp
             return new Person() { Icon = (PackIconMaterialKind)_IconIndex++, IsChanged = true };
         }
 
-        public bool DeleteItem(Person person)
+        public async Task<bool> DeleteItemAsync(CancellationToken token, Person person)
         {
+            await Task.Delay(2000, token);
             bool retVal = false;
             lock (_People)
             {
@@ -39,19 +41,29 @@ namespace OnPoint.WpfTestApp
             return retVal;
         }
 
-        public IEnumerable<Person> RefreshItems() => _People;
-
-        public IEnumerable<Person> SaveItems(IEnumerable<Person> people)
+        public async Task<IEnumerable<Person>> RefreshItemsAsync(CancellationToken token)
         {
+            await Task.Delay(2000, token);
+            return _People.Where(x => x.ID > 0);
+        }
+
+        public async Task<IEnumerable<Person>> SaveItemsAsync(CancellationToken token, IEnumerable<Person> people)
+        {
+            await Task.Delay(2000, token);
             foreach (Person person in people)
             {
+                if(person.ID < 1)
+                {
+                    person.ID = _IdIndex++;
+                }
                 person.IsChanged = false;
             }
             return _People;
         }
 
-        public IEnumerable<Person> SearchItems(params Expression<Func<Person, bool>>[] filters)
+        public async Task<IEnumerable<Person>> SearchItemsAsync(CancellationToken token, params Expression<Func<Person, bool>>[] filters)
         {
+            await Task.Delay(2000, token);
             List<Person> retVal = new List<Person>();
             if (filters != null)
             {
