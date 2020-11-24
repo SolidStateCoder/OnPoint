@@ -17,6 +17,9 @@ namespace OnPoint.WpfTestApp
         public CommandVM RefreshCmdVM { get => _RefreshCmdVM; set => this.RaiseAndSetIfChanged(ref _RefreshCmdVM, value); }
         private CommandVM _RefreshCmdVM = default;
 
+        public bool IsRefreshing { get => _IsRefreshing?.Value ?? false; }
+        readonly ObservableAsPropertyHelper<bool> _IsRefreshing = default;
+
         private ReactiveCommand<Unit, bool> RefreshCmd { get; set; }
 
         public LettersVM()
@@ -29,6 +32,8 @@ namespace OnPoint.WpfTestApp
             RefreshCmd
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(LoadLettersComplete);
+
+            RefreshCmd.IsExecuting.ToProperty(this, x => x.IsRefreshing, out _IsRefreshing);
 
             RefreshCmdVM = new CommandVM(RefreshCmd, 60, 24, "Refresh", null, "Click this to load Letters");
         }
@@ -48,7 +53,6 @@ namespace OnPoint.WpfTestApp
 
         private async Task<bool> LoadLettersAsync(CancellationToken token)
         {
-            BusyMessageOverride = "Refreshing...";
             Application.Current.Dispatcher.Invoke(() => Contents.Clear());
             for (char x = 'A'; x <= 'Z'; x++)
             {
@@ -66,6 +70,13 @@ namespace OnPoint.WpfTestApp
             {
                 Contents.Add(new Letter('-'));
             }
+        }
+
+        protected override string GetBusyOverrideMessage()
+        {
+            string retVal = base.GetBusyOverrideMessage();
+            if (IsRefreshing) retVal = "Refreshing...";
+            return retVal;
         }
     }
 }

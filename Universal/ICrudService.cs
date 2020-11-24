@@ -10,7 +10,8 @@ namespace OnPoint.Universal
     {
         Task<T> CreateNewItemAsync(CancellationToken token);
         Task<IEnumerable<T>> RefreshItemsAsync(CancellationToken token);
-        Task<IEnumerable<T>> SaveItemsAsync(CancellationToken token, IEnumerable<T> items);
+        Task<IEnumerable<T>> SaveChangedItemsAsync(CancellationToken token, IEnumerable<T> items);
+        Task<T> SaveItemAsync(CancellationToken token, T item);
         Task<bool> DeleteItemAsync(CancellationToken token, T item);
         Task<IEnumerable<T>> SearchItemsAsync(CancellationToken token, params Expression<Func<T, bool>>[] filters);
     }

@@ -15,6 +15,9 @@ namespace OnPoint.WpfTestApp
         public CommandVM RefreshCmdVM { get => _RefreshCmdVM; set => this.RaiseAndSetIfChanged(ref _RefreshCmdVM, value); }
         private CommandVM _RefreshCmdVM = default;
 
+        public bool IsRefreshing { get => _IsRefreshing?.Value ?? false; }
+        readonly ObservableAsPropertyHelper<bool> _IsRefreshing = default;
+
         private ReactiveCommand<Unit, List<Number>> RefreshCmd { get; set; }
 
         public NumbersVM()
@@ -24,6 +27,8 @@ namespace OnPoint.WpfTestApp
             RefreshCmd
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(LoadNumbersComplete);
+
+            RefreshCmd.IsExecuting.ToProperty(this, x => x.IsRefreshing, out _IsRefreshing);
 
             RefreshCmdVM = new CommandVM(RefreshCmd, 60, 24, "Refresh", null, "Click this to load different Numbers");
         }
@@ -42,13 +47,12 @@ namespace OnPoint.WpfTestApp
 
         private async Task<List<Number>> LoadNumbersAsync()
         {
-            BusyMessageOverride = "Refreshing...";
             // Simulate network latency.
             await Task.Delay(3000);
             List<Number> retVal = new List<Number>();
             int target = new Random().Next(10000);
             int start = new Random().Next(target);
-            for(int x = start; x < target; x++)
+            for (int x = start; x < target; x++)
             {
                 retVal.Add(new Number(x));
             }
@@ -56,5 +60,12 @@ namespace OnPoint.WpfTestApp
         }
 
         private void LoadNumbersComplete(List<Number> numbers) => Contents.ClearAndAddRange(numbers);
+
+        protected override string GetBusyOverrideMessage()
+        {
+            string retVal = base.GetBusyOverrideMessage();
+            if (IsRefreshing) retVal = "Refreshing...";
+            return retVal;
+        }
     }
 }
