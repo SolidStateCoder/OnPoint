@@ -72,5 +72,38 @@ namespace OnPoint.Universal
             }
             return retVal;
         }
+
+        // ABC -> ABC
+        // AxByCz -> Ax By Cz
+        // ABCxyz -> AB Cxyz
+        // xyzABC -> xyzABC
+        public static string SplitAtCapitals(this string input)
+        {
+            string retVal = null;
+            if (!input.IsNothing())
+            {
+                retVal = input[0].ToString();
+                for (int x = 1; x < input.Length; x++) // skip the first character to avoid getting: " A"
+                {
+                    if (x == 1 && Char.IsLower(input[0]) && Char.IsUpper(input[x])) // eGEMS
+                    {
+                        retVal += input[x];
+                    }
+                    else if (input.Length > 0 && Char.IsUpper(input[x]) && (Char.IsLower(input[x - 1]) || Char.IsDigit(input[x - 1]))) // AxBy
+                    {
+                        retVal += " " + input[x];
+                    }
+                    else if (input.Length > x + 1 && Char.IsUpper(input[x]) && (Char.IsUpper(input[x - 1]) || Char.IsDigit(input[x - 1])) && Char.IsLower(input[x + 1])) // ABCxyz
+                    {
+                        retVal += " " + input[x];
+                    }
+                    else
+                    {
+                        retVal += input[x];
+                    }
+                }
+            }
+            return retVal;
+        }
     }
 }

@@ -8,9 +8,11 @@
     >
     <DockPanel>
 
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="4">
+        <ContentControl DockPanel.Dock="Top" Content="{Binding PeopleVM}" Height="200" />
+
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="4,10,4,4">
             <Button x:Name="LoadNumbersButton" Style="{StaticResource TextButton}" />
-            <Button x:Name="LoadLettersButton" Style="{StaticResource TextButton}" Margin="10,0,0,0" />
+            <Button x:Name="LoadLettersButton" Style="{StaticResource TextButton}" Margin="20,0,0,0" />
         </StackPanel>
 
         <UniformGrid Columns="2" Rows="1">

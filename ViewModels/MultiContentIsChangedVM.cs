@@ -4,6 +4,8 @@ using DynamicData.Binding;
 using OnPoint.Universal;
 using ReactiveUI;
 using System;
+using System.Linq;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -21,6 +23,12 @@ namespace OnPoint.ViewModels
 
         protected IObservable<bool> WhenHasChanges_NotBusy { get; }
 
+#if DEBUG
+        private static string NL { get; } = Environment.NewLine;
+        public override string DebugOutput => base.DebugOutput +
+            $"HasChangedContents: {HasChangedContents}{NL}";
+#endif
+
         public MultiContentIsChangedVM(ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default) : base(lifeTimeScope, viewModelTypeId, screen, urlPathSegment)
         {
             WhenHasChanges_NotBusy = this.WhenAny(vm => vm.IsBusy, vm => vm.HasChangedContents, (x, y) => !x.Value && y.Value);
@@ -35,9 +43,25 @@ namespace OnPoint.ViewModels
                 .Subscribe(x => ContentHasChanged(x))
                 .DisposeWith(disposable);
 
+#if DEBUG
+            Observable.Merge(
+                this.WhenAnyValue(x => x.HasChangedContents).Select(_ => Unit.Default)
+                )
+                .Subscribe(_ => this.RaisePropertyChanged(nameof(DebugOutput)))
+                .DisposeWith(disposable);
+#endif
+
             return await base.Activated(disposable);
         }
 
-        protected virtual void ContentHasChanged(T item) => HasChangedContents = true;
+        protected virtual void ContentHasChanged(T item) => SetHasChangedContents();
+
+        protected override void ContentsChanged(IChangeSet<T> changeSet)
+        {
+            base.ContentsChanged(changeSet);
+            SetHasChangedContents();
+        }
+
+        private void SetHasChangedContents() => HasChangedContents = Contents.Any(x => x.IsChanged);
     }
 }

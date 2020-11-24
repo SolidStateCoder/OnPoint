@@ -2,6 +2,7 @@
 using System.Reactive.Disposables;
 using System.Windows;
 using OnPoint.Universal;
+using System.Windows.Controls;
 
 namespace OnPoint.WpfTestApp
 {
@@ -11,7 +12,11 @@ namespace OnPoint.WpfTestApp
         {
             Loaded += UserControl_Loaded;
             InitializeComponent();
-
+#if DEBUG
+            DebugOutputView debugOutputView = new DebugOutputView();
+            DockPanel.SetDock(debugOutputView, Dock.Right);
+            MainDock.Children.Insert(0, debugOutputView);
+#endif
             this.WhenActivated(disposable =>
             {
                 this.OneWayBind(ViewModel, vm => vm.Description, v => v.DescriptionText.Text)
@@ -43,6 +48,9 @@ namespace OnPoint.WpfTestApp
 
                 this.OneWayBind(ViewModel, vm => vm.HUDMessage, v => v.HUDPanel.Visibility, x => x.IsNothing() ? Visibility.Collapsed : Visibility.Visible)
                     .DisposeWith(disposable);
+
+                this.OneWayBind(ViewModel, vm => vm.DisplayState, v => v.DisplayStateText.Text)
+                    .DisposeWith(disposable);                
             });
         }
 

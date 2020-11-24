@@ -1,0 +1,16 @@
+﻿<UserControl
+    x:Class="OnPoint.WpfCore.Icon"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    >
+    <!-- Make sure the MahAppsIconTemplates ResourceDictionary is included in your App.xaml!
+        <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/OnPoint.WpfCore;component/MahAppsIconTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        </Application.Resources>
+    -->
+    <ContentControl x:Name="icon1" DataContext="{Binding IconDetails}" Content="{Binding}" ContentTemplateSelector="{StaticResource MahAppsIcon}" Panel.ZIndex="1" />
+</UserControl>

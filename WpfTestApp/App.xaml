@@ -3,10 +3,15 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:OPTest="clr-namespace:OnPoint.WpfTestApp"
+    xmlns:Wpf="clr-namespace:OnPoint.WpfCore;assembly=OnPoint.WpfCore"
     Startup="Application_Startup"
     >
     <Application.Resources>
-        
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/OnPoint.WpfCore;component/MahAppsIconTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
         <!-- A borderless and background-less button. -->
         <Style x:Key="TextButton" TargetType="{x:Type ButtonBase}">
             <Style.Triggers>
@@ -27,8 +32,8 @@
             </Style.Triggers>
 
             <Setter Property="Command" Value="{Binding Command}" />
-            <Setter Property="CommandParameter" Value="{Binding ConverterParameter}" />
-            <Setter Property="Content" Value="{Binding CommandText}" />
+            <Setter Property="CommandParameter" Value="{Binding CommandParameter}" />
+            <Setter Property="Content" Value="{Binding CommandText}"/>
             <Setter Property="ToolTip" Value="{Binding ToolTip}" />
             <Setter Property="Width" Value="{Binding Width}" />
             <Setter Property="Height" Value="{Binding Height}" />
@@ -43,13 +48,32 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+
+        <Style x:Key="ImageButton" BasedOn="{StaticResource TextButton}" TargetType="{x:Type ButtonBase}">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <DockPanel>
+                        <Wpf:Icon DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding CommandText}" Margin="4,0,0,0" VerticalAlignment="Center" />
+                    </DockPanel>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         
+        <Wpf:VisibilityConverter x:Key="VisibilityBool" />
+
         <DataTemplate DataType="{x:Type OPTest:RootVM}">
             <OPTest:RootView />
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type OPTest:MainVM}">
             <OPTest:MainView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type OPTest:PeopleVM}">
+            <OPTest:PeopleView />
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type OPTest:NumbersVM}">
@@ -60,5 +84,6 @@
             <OPTest:LettersView />
         </DataTemplate>
 
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

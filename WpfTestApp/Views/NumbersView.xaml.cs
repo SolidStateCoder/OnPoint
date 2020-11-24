@@ -1,6 +1,7 @@
 ﻿using ReactiveUI;
 using System.Reactive.Disposables;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace OnPoint.WpfTestApp
 {
@@ -10,7 +11,11 @@ namespace OnPoint.WpfTestApp
         {
             Loaded += UserControl_Loaded;
             InitializeComponent();
-
+#if DEBUG
+            DebugOutputView debugOutputView = new DebugOutputView();
+            DockPanel.SetDock(debugOutputView, Dock.Right);
+            MainDock.Children.Insert(0, debugOutputView);
+#endif
             this.WhenActivated(disposable =>
             {
                 this.OneWayBind(ViewModel, vm => vm.IsBusy, v => v.BusyIndicator.Visibility)

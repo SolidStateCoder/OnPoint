@@ -19,6 +19,7 @@ namespace OnPoint.WpfTestApp
 
         public NumbersVM()
         {
+            Title = "Numbers";
             RefreshCmd = ReactiveCommand.CreateFromTask(LoadNumbersAsync, WhenNotBusy);
             RefreshCmd
                 .ObserveOn(RxApp.MainThreadScheduler)
