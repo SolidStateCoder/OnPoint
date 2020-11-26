@@ -161,7 +161,6 @@ namespace OnPoint.ViewModels
             RefreshItems
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(RefreshItemsComplete);
-            RefreshItems.IsExecuting.Log(this,"TEST").Subscribe();
             RefreshItems.IsExecuting.ToProperty(this, x => x.IsRefreshingItems, out _IsRefreshingItems);
             RefreshItemsVM = CreateRefreshItemsVM(RefreshItems, 100, 24, "Refresh", "Click this to reload the items");
 
