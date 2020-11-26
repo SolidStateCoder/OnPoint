@@ -40,7 +40,7 @@ namespace OnPoint.WpfTestApp
                 this.Bind(ViewModel, vm => vm.AppMinHeight, v => v.HeightSlider.Minimum)
                     .DisposeWith(disposable);
 
-                this.BindCommand(ViewModel, vm => vm.CloseHUDMessageCmd, v => v.CloseHUDButton)
+                this.BindCommand(ViewModel, vm => vm.CloseHUDMessage, v => v.CloseHUDButton)
                     .DisposeWith(disposable);
 
                 this.OneWayBind(ViewModel, vm => vm.HUDMessage, v => v.HUDMessageText.Text)

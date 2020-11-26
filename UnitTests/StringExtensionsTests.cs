@@ -19,5 +19,17 @@ namespace OnPoint.UnitTests
             Assert.AreEqual(_Null.EverythingAfterFirst("z"), null);
             Assert.AreEqual(_Null.EverythingAfterLast("z"), null);
         }
+
+        [Test]
+        public void SplitAtCapitals()
+        {
+            Assert.AreEqual("ABC".SplitAtCapitals(), "ABC");
+            Assert.AreEqual("AxByCz".SplitAtCapitals(), "Ax By Cz");
+            Assert.AreEqual("AxxByyCzz".SplitAtCapitals(), "Axx Byy Czz");
+            Assert.AreEqual("ABCxyz".SplitAtCapitals(), "AB Cxyz");
+            Assert.AreEqual("xyzABC".SplitAtCapitals(), "xyz ABC");
+            Assert.AreEqual("aFOO".SplitAtCapitals(), "aFOO");
+            Assert.AreEqual("aFoo".SplitAtCapitals(), "aFoo");
+        }
     }
 }

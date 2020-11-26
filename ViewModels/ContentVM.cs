@@ -27,13 +27,13 @@ namespace OnPoint.ViewModels
 
         public ContentVM(T content) : this(content, null, 0, null, null) { }
 
-        public ContentVM(T content = default, ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default) : base(lifeTimeScope, viewModelTypeId, screen, urlPathSegment)
+        public ContentVM(T content = default, ILifetimeScope lifetimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default) : base(lifetimeScope, viewModelTypeId, screen, urlPathSegment)
         {
             Content = content;
-            WhenContentNull = this.WhenAny(vm => vm.Content, x => x.Value == null);
-            WhenContentNotNull = this.WhenAny(vm => vm.Content, x => x.Value != null);
-            WhenContentNull_NotBusy = this.WhenAny(vm => vm.Content, vm => vm.IsBusy, (x, y) => x.Value == null && !y.Value);
-            WhenContentNotNull_NotBusy = this.WhenAny(vm => vm.Content, vm => vm.IsBusy, (x, y) => x.Value != null && !y.Value);
+            WhenContentNull = this.WhenAny(vm => vm.Content, content => content.Value == null);
+            WhenContentNotNull = this.WhenAny(vm => vm.Content, content => content.Value != null);
+            WhenContentNull_NotBusy = this.WhenAny(vm => vm.Content, vm => vm.IsBusy, (content, busy) => content.Value == null && !busy.Value);
+            WhenContentNotNull_NotBusy = this.WhenAny(vm => vm.Content, vm => vm.IsBusy, (content, busy) => content.Value != null && !busy.Value);
         }
 
         protected override Task<ExecutionResultMessage> Activated(CompositeDisposable disposable)
@@ -44,6 +44,6 @@ namespace OnPoint.ViewModels
             return base.Activated(disposable);
         }
 
-        protected virtual void ContentHasChanged(T content) { }
+        protected virtual void ContentHasChanged(T content) => Debug("ContentHasChanged {content}.");
     }
 }

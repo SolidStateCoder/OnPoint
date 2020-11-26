@@ -3,6 +3,7 @@ using OnPoint.Universal;
 using OnPoint.ViewModels;
 using OnPoint.WpfCore;
 using ReactiveUI;
+using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace OnPoint.WpfTestApp
             return await base.Activated(disposable);
         }
 
-        protected override IObservable<bool> CanSaveItem() => this.WhenAnyValue(vm => vm.SelectedContent.IsChanged, vm => vm.IsBusy, (x, y) => x && !y);
+        protected override IObservable<bool> CanSaveItem() => this.WhenAnyValue(vm => vm.SelectedContent, vm => vm.SelectedContent.IsChanged, vm => vm.IsBusy, (x, y,z) => x != null && y && !z);
 
         protected override List<Expression<Func<Person, bool>>> GetSearchCriteria()
         {

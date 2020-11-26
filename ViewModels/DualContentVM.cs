@@ -37,10 +37,10 @@ namespace OnPoint.ViewModels
         public DualContentVM(T content1 = default, U content2 = default, ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default) : base(content1,lifeTimeScope, viewModelTypeId, screen, urlPathSegment)
         {
             Content2 = content2;
-            WhenContent2Null = this.WhenAny(vm => vm.Content2, x => x.Value == null);
-            WhenContent2NotNull = this.WhenAny(vm => vm.Content2, x => x.Value != null);
-            WhenContent2Null_NotBusy = this.WhenAny(vm => vm.Content2, vm => vm.IsBusy, (x, y) => x.Value == null && !y.Value);
-            WhenContent2NotNull_NotBusy = this.WhenAny(vm => vm.Content2, vm => vm.IsBusy, (x, y) => x.Value != null && !y.Value);
+            WhenContent2Null = this.WhenAny(vm => vm.Content2, content2 => content2.Value == null);
+            WhenContent2NotNull = this.WhenAny(vm => vm.Content2, content2 => content2.Value != null);
+            WhenContent2Null_NotBusy = this.WhenAny(vm => vm.Content2, vm => vm.IsBusy, (content2, busy) => content2.Value == null && !busy.Value);
+            WhenContent2NotNull_NotBusy = this.WhenAny(vm => vm.Content2, vm => vm.IsBusy, (content2, busy) => content2.Value != null && !busy.Value);
 
             WhenBothNull = Observable.Merge(WhenContentNull, WhenContent2Null);
             WhenBothNotNull = Observable.Merge(WhenContentNotNull, WhenContent2NotNull);
@@ -56,6 +56,6 @@ namespace OnPoint.ViewModels
             return await base.Activated(disposable);
         }
 
-        protected virtual void Content2HasChanged(U content2) { }
+        protected virtual void Content2HasChanged(U content2) => Debug("Content2HasChanged {content}.");
     }
 }

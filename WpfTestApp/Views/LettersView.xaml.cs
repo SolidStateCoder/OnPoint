@@ -27,7 +27,7 @@ namespace OnPoint.WpfTestApp
                 this.OneWayBind(ViewModel, vm => vm.BusyMessage, v => v.BusyText.Text)
                     .DisposeWith(disposable);
 
-                this.OneWayBind(ViewModel, vm => vm.RefreshCmdVM, v => v.RefreshButton.DataContext)
+                this.OneWayBind(ViewModel, vm => vm.RefreshVM, v => v.RefreshButton.DataContext)
                     .DisposeWith(disposable);
 
                 this.OneWayBind(ViewModel, vm => vm.SelectedContent, v => v.SelectedLetterText.Text, x => $"You selected: {x}")
@@ -36,7 +36,7 @@ namespace OnPoint.WpfTestApp
                 this.OneWayBind(ViewModel, vm => vm.SelectedContent, v => v.SelectedLetterText.Visibility, x => x == null ? Visibility.Collapsed : Visibility.Visible)
                     .DisposeWith(disposable);
 
-                this.BindCommand(ViewModel, vm => vm.CancelBoundCmd, v => v.CancelButton)
+                this.BindCommand(ViewModel, vm => vm.CancelBound, v => v.CancelButton)
                     .DisposeWith(disposable);
 
                 this.OneWayBind(ViewModel, vm => vm.IsCancelEnabled, v => v.CancelButton.Visibility)

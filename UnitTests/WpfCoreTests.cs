@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using OnPoint.Universal;
 using OnPoint.WpfCore;
+using System.Globalization;
 using System.Windows;
 
 namespace OnPoint.UnitTests
@@ -8,7 +9,7 @@ namespace OnPoint.UnitTests
     public class WpfCoreTests
     {
         [Test]
-        public void WpfTests()
+        public void WpfEnumTests()
         {
             Assert.AreEqual(Visibility.Visible, Visibility.Collapsed.Invert());
             Assert.AreEqual(Visibility.Visible, Visibility.Hidden.Invert());
@@ -17,6 +18,14 @@ namespace OnPoint.UnitTests
 
             Assert.AreEqual(WindowState.Normal, AppDisplayState.Normal.ToWindowState());
             Assert.AreEqual(AppDisplayState.Normal, WindowState.Normal.ToAppDisplayState());
+        }
+
+        [Test]
+        public void ConverterTests()
+        {
+            BooleanNegatorConverter converter = new BooleanNegatorConverter();
+            Assert.IsFalse((bool)converter.Convert(true, null, null, CultureInfo.InvariantCulture));
+            Assert.IsTrue((bool)converter.Convert(true, null, null, CultureInfo.InvariantCulture));
         }
     }
 }
