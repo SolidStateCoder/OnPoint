@@ -13,10 +13,10 @@ namespace OnPoint.WpfTestApp
 
             this.WhenActivated(disposable =>
             {
-                this.OneWayBind(ViewModel, vm => vm.LoadNumbersCmdVM, v => v.LoadNumbersButton.DataContext)
+                this.OneWayBind(ViewModel, vm => vm.LoadNumbersVM, v => v.LoadNumbersButton.DataContext)
                     .DisposeWith(disposable);
 
-                this.OneWayBind(ViewModel, vm => vm.LoadLettersCmdVM, v => v.LoadLettersButton.DataContext)
+                this.OneWayBind(ViewModel, vm => vm.LoadLettersVM, v => v.LoadLettersButton.DataContext)
                     .DisposeWith(disposable);
             });
         }

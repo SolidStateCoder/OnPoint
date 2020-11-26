@@ -76,7 +76,7 @@ namespace OnPoint.Universal
         // ABC -> ABC
         // AxByCz -> Ax By Cz
         // ABCxyz -> AB Cxyz
-        // xyzABC -> xyzABC
+        // xyzABC -> xyz ABC
         public static string SplitAtCapitals(this string input)
         {
             string retVal = null;

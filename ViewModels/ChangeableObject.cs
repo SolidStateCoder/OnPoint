@@ -18,11 +18,10 @@ namespace OnPoint.ViewModels
     /// </summary>
     public abstract class ChangeableObject : ReactiveObject, IIsChanged
     {
+        /// <summary>
+        /// Indicates this object has changed from a "business perspective".
+        /// </summary>
         public bool IsChanged { get => _IsChanged; set => this.RaiseAndSetIfChanged(ref _IsChanged, value); }
         private bool _IsChanged = default;
-
-        public ChangeableObject()
-        {
-        }
     }
 }

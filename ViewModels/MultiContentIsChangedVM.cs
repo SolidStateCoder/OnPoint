@@ -18,6 +18,9 @@ namespace OnPoint.ViewModels
     /// <typeparam name="T">The type of the <see cref="MultiContentVM.Contents"/></typeparam>
     public class MultiContentIsChangedVM<T> : MultiContentVM<T> where T : class, IIsChanged
     {
+        /// <summary>
+        /// Set to true whenever a <see cref="Contents"/> <see cref="IIsChanged.IsChanged"/> property is set to true.
+        /// </summary>
         public bool HasChangedContents { get => _HasChangedContents; set => this.RaiseAndSetIfChanged(ref _HasChangedContents, value); }
         private bool _HasChangedContents = default;
 
@@ -31,7 +34,7 @@ namespace OnPoint.ViewModels
 
         public MultiContentIsChangedVM(ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default) : base(lifeTimeScope, viewModelTypeId, screen, urlPathSegment)
         {
-            WhenHasChanges_NotBusy = this.WhenAny(vm => vm.IsBusy, vm => vm.HasChangedContents, (x, y) => !x.Value && y.Value);
+            WhenHasChanges_NotBusy = this.WhenAny(vm => vm.IsBusy, vm => vm.HasChangedContents, (busy, changed) => !busy.Value && changed.Value);
         }
 
         protected async override Task<ExecutionResultMessage> Activated(CompositeDisposable disposable)

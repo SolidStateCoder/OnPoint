@@ -58,8 +58,8 @@ namespace OnPoint.ViewModels
             ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default)
             : base(iconDetails, lifeTimeScope, viewModelTypeId, screen, urlPathSegment)
         {
+            CommandText = Title = commandText;
             Command = command;
-            CommandText = commandText;
             IconDetails = iconDetails;
             ToolTip = toolTip;
             CommandParameter = commandParameter;

@@ -1,11 +1,11 @@
 ﻿using Autofac;
-using NLog;
 using OnPoint.Universal;
 using ReactiveUI;
 using Splat;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -17,7 +17,7 @@ namespace OnPoint.ViewModels
     /// <summary>
     /// The base class for all view models in OnPoint.
     /// </summary>
-    public abstract class ViewModelBase : ReactiveObject, IViewModel, IActivatableViewModel, IRoutableViewModel, IEquatable<ViewModelBase>
+    public abstract class ViewModelBase : ReactiveObject, IViewModel, IActivatableViewModel, IRoutableViewModel, IEquatable<ViewModelBase>, IEnableLogger
     {
         public uint ViewModelTypeId { get => _ViewModelTypeId; set => this.RaiseAndSetIfChanged(ref _ViewModelTypeId, value); }
         private uint _ViewModelTypeId = default;
@@ -64,18 +64,18 @@ namespace OnPoint.ViewModels
         public string UrlPathSegment { get; }
         public IScreen HostScreen { get; }
 
-        // CancelCmd can always be executed. CancelBoundCmd can only be executed when a cancellable command is executing.
-        protected ReactiveCommand<Unit, Unit> CancelCmd { get; private set; }
+        // Cancel can always be executed. CancelBound can only be executed when a cancellable command is executing.
+        protected ReactiveCommand<Unit, Unit> Cancel { get; private set; }
 
         /// <summary>
-        /// Can be used by the UI to call <see cref="CancelCmd"/>. CancelCmd can always be executed, but CancelBoundCmd can only be 
+        /// Can be used by the UI to call <see cref="Cancel"/>. Cancel can always be executed, but CancelBound can only be 
         /// executed when a cancellable command is executing which makes it ideal for binding to the UI.
         /// </summary>
-        public ReactiveCommand<Unit, Unit> CancelBoundCmd { get => _CancelBounCmd; private set => this.RaiseAndSetIfChanged(ref _CancelBounCmd, value); }
-        private ReactiveCommand<Unit, Unit> _CancelBounCmd = default;
+        public ReactiveCommand<Unit, Unit> CancelBound { get => _CancelBound; private set => this.RaiseAndSetIfChanged(ref _CancelBound, value); }
+        private ReactiveCommand<Unit, Unit> _CancelBound = default;
 
-        public ReactiveCommand<Unit, bool> CloseErrorMessageCmd { get; protected set; }
-        public ReactiveCommand<Unit, string> CloseHUDMessageCmd { get; protected set; }
+        public ReactiveCommand<Unit, bool> CloseErrorMessage { get; protected set; }
+        public ReactiveCommand<Unit, string> CloseHUDMessage { get; protected set; }
 
         private static long _IDIndex = 0;
         public long ViewModelId { get; }
@@ -87,8 +87,6 @@ namespace OnPoint.ViewModels
 
         private int _BusyCount = 0;
         private object _BusyLock = new object();
-
-        protected Logger Logger { get; } = LogManager.GetCurrentClassLogger();
 
         protected bool IsEnabledWhenBusy { get; set; } = false;
         protected bool CanActivatedBeRequested { get; set; } = false;
@@ -114,7 +112,7 @@ namespace OnPoint.ViewModels
         /// Used by Reactive UI to activate this view model when it enters the visual tree. It should be not touched.
         /// </summary>
         public ViewModelActivator Activator { get; }
-        protected ILifetimeScope LifeTimeScope { get; private set; }
+        protected ILifetimeScope LifetimeScope { get; private set; }
 
         // Reference counter so we know when we can dispose of a scope. Using "nested" or "owned" lifetime scopes is 
         // a solution to having one (or more) global containers as you see in most of the examples on the web. Global
@@ -123,29 +121,34 @@ namespace OnPoint.ViewModels
         // https://reactiveui.net/docs/handbook/when-activated/
         private static readonly Dictionary<ILifetimeScope, int> _LifetimeScopeCounts = new Dictionary<ILifetimeScope, int>();
 
+        /// <summary>
+        /// Can be used by unit tests or system code to ensure there are no memory leaks of lifetimescopes.
+        /// </summary>
+        public static int LifetimeScopeCounts => _LifetimeScopeCounts.Values.Sum();
+
         // https://www.reactiveui.net/docs/handbook/routing/
-        public ViewModelBase(ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default)
+        public ViewModelBase(ILifetimeScope lifetimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default)
         {
             ViewModelId = Interlocked.Increment(ref _IDIndex);
             ViewModelTypeId = viewModelTypeId;
             Activator = new ViewModelActivator();
-            LifeTimeScope = lifeTimeScope;
-            if (LifeTimeScope != null)
+            LifetimeScope = lifetimeScope;
+            if (LifetimeScope != null)
             {
                 lock (_LifetimeScopeCounts)
                 {
                     if (_LifetimeScopeCounts.Count > 100000)
                     {
-                        Logger.Fatal("There are over 100,000 active AutoFac lifetime scopes. This is probably a memory leak.");
+                        this.Log().Fatal("There are over 100,000 active AutoFac lifetime scopes. This is probably a memory leak.");
                     }
                     //
-                    if (!_LifetimeScopeCounts.ContainsKey(LifeTimeScope))
+                    if (!_LifetimeScopeCounts.ContainsKey(LifetimeScope))
                     {
-                        _LifetimeScopeCounts.Add(LifeTimeScope, 1);
+                        _LifetimeScopeCounts.Add(LifetimeScope, 1);
                     }
                     else
                     {
-                        _LifetimeScopeCounts[LifeTimeScope] = _LifetimeScopeCounts[LifeTimeScope] + 1;
+                        _LifetimeScopeCounts[LifetimeScope] = _LifetimeScopeCounts[LifetimeScope] + 1;
                     }
                 }
             }
@@ -156,9 +159,9 @@ namespace OnPoint.ViewModels
             _ToggleBusy = x => { if (x) StartBusy(); else StopBusy(); };
             _ToggleBusyMessage = (x, y) => { if (x) StartBusy(y); else StopBusy(); };
 
-            CancelCmd = ReactiveCommand.Create(Cancel);
-            CloseErrorMessageCmd = ReactiveCommand.Create(() => false);
-            CloseHUDMessageCmd = ReactiveCommand.Create(() => HUDMessage = default);
+            Cancel = ReactiveCommand.Create(CancelRequested);
+            CloseErrorMessage = ReactiveCommand.Create(() => false);
+            CloseHUDMessage = ReactiveCommand.Create(() => HUDMessage = default);
 
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
             UrlPathSegment = urlPathSegment;
@@ -171,32 +174,6 @@ namespace OnPoint.ViewModels
                     StartBusy("Activating...");
                     await Activated(disposable);
                     StopBusy();
-
-                    Disposable
-                        .Create(() =>
-                        {
-                            if (LifeTimeScope != null)
-                            {
-                                lock (_LifetimeScopeCounts)
-                                {
-                                    if (_LifetimeScopeCounts.ContainsKey(LifeTimeScope))
-                                    {
-                                        _LifetimeScopeCounts[LifeTimeScope] = _LifetimeScopeCounts[LifeTimeScope] - 1;
-                                        if (_LifetimeScopeCounts[LifeTimeScope] < 1)
-                                        {
-                                            Deactivated(LifeTimeScope);
-                                            _LifetimeScopeCounts.Remove(LifeTimeScope);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        Deactivated(LifeTimeScope);
-                                    }
-                                }
-                            }
-                        })
-                        .DisposeWith(disposable);
-
 #if DEBUG
                     Observable.Merge(
                         this.WhenAnyValue(x => x.Title).Select(_ => Unit.Default),
@@ -219,11 +196,12 @@ namespace OnPoint.ViewModels
                     IsActivated = true;
                 });
             }
-            catch (FileNotFoundException fnfe) { Logger.Error(fnfe, "Xamarin Android bug https://github.com/reactiveui/ReactiveUI/issues/2049"); } // Xamarin Android bug https://github.com/reactiveui/ReactiveUI/issues/2049
+            catch (FileNotFoundException fnfe) { this.Log().Error(fnfe, "Xamarin Android bug https://github.com/reactiveui/ReactiveUI/issues/2049"); } // Xamarin Android bug https://github.com/reactiveui/ReactiveUI/issues/2049
         }
 
         protected void StartBusy(string message = default)
         {
+            Debug($"StartBusy {message}");
             lock (_BusyLock)
             {
                 IsEnabled = IsEnabledWhenBusy;
@@ -251,6 +229,7 @@ namespace OnPoint.ViewModels
 
         protected void StopBusy(bool forceStop = false)
         {
+            Debug($"StopBusy {forceStop}");
             lock (_BusyLock)
             {
                 IsEnabled = true;
@@ -270,12 +249,38 @@ namespace OnPoint.ViewModels
             }
         }
 
-        // Added to visual tree.
+        // Triggered when the corresponding view has been added to the visual tree.
         protected virtual async Task<ExecutionResultMessage> Activated(CompositeDisposable disposable)
         {
+            Debug($"Activated");
+            Disposable
+                .Create(() =>
+                {
+                    if (LifetimeScope != null)
+                    {
+                        lock (_LifetimeScopeCounts)
+                        {
+                            if (_LifetimeScopeCounts.ContainsKey(LifetimeScope))
+                            {
+                                _LifetimeScopeCounts[LifetimeScope] = _LifetimeScopeCounts[LifetimeScope] - 1;
+                                if (_LifetimeScopeCounts[LifetimeScope] < 1)
+                                {
+                                    Deactivated(LifetimeScope);
+                                    _LifetimeScopeCounts.Remove(LifetimeScope);
+                                }
+                            }
+                            else
+                            {
+                                Deactivated(LifetimeScope);
+                            }
+                        }
+                    }
+                })
+                .DisposeWith(disposable);
+
             IList<IObservable<bool>> commandsIsExecuting = GetCancellableCommads();
             IsCancelEnabled = commandsIsExecuting.AnyNonNulls();
-            CancelBoundCmd = ReactiveCommand.Create(() => { CancelCmd.Execute().Subscribe(); }, Observable.Merge(commandsIsExecuting));
+            CancelBound = ReactiveCommand.Create((Action)(() => { ObservableExtensions.Subscribe<Unit>(this.Cancel.Execute()); }), Observable.Merge(commandsIsExecuting));
 
             IList<IObservable<bool>> busyCmds = GetBusyCommands();
             Observable.Merge(GetBusyCommands())
@@ -284,10 +289,10 @@ namespace OnPoint.ViewModels
                 .Subscribe(x => _ToggleBusy(x));
 
             IList<IObservable<Exception>> throwers = GetAllCommandThrownExceptions();
-            throwers.Add(CancelCmd.ThrownExceptions);
-            throwers.Add(CancelBoundCmd.ThrownExceptions);
-            throwers.Add(CloseErrorMessageCmd.ThrownExceptions);
-            throwers.Add(CloseHUDMessageCmd.ThrownExceptions);
+            throwers.Add(Cancel.ThrownExceptions);
+            throwers.Add(CancelBound.ThrownExceptions);
+            throwers.Add(CloseErrorMessage.ThrownExceptions);
+            throwers.Add(CloseHUDMessage.ThrownExceptions);
 
             foreach (var thrower in throwers)
             {
@@ -299,11 +304,11 @@ namespace OnPoint.ViewModels
             {
                 errorables.Add(thrower.Select(x => true));
             }
-            if (CancelCmd != null)
+            if (Cancel != null)
             {
-                errorables.Add(CancelCmd.ThrownExceptions.Select(x => true));
+                errorables.Add(Cancel.ThrownExceptions.Select(x => true));
             }
-            errorables.Add(CloseErrorMessageCmd);
+            errorables.Add(CloseErrorMessage);
 
             _IsShowingErrorMessage = Observable.Merge(errorables.ToArray())
                 .Delay(TimeSpan.FromMilliseconds(250), RxApp.MainThreadScheduler)
@@ -324,13 +329,17 @@ namespace OnPoint.ViewModels
         // Removed from visual tree.
         protected virtual ExecutionResultMessage Deactivated(ILifetimeScope scope)
         {
+            Debug($"Deactivated");
             try
             {
-                CancelCmd?.Execute()?.Subscribe();
+                Cancel?.Execute()?.Subscribe();
                 StopBusy();
                 scope?.Dispose();
             }
-            catch { }
+            catch(Exception ex)
+            {
+                this.Log().Error(ex, $"{ViewModelId} - {this}: Deactivated.");
+            }
             return ExecutionResultMessage.Success;
         }
 
@@ -338,7 +347,7 @@ namespace OnPoint.ViewModels
         protected virtual IList<IObservable<Exception>> GetAllCommandThrownExceptions() => new List<IObservable<Exception>>();
         protected virtual IList<IObservable<bool>> GetBusyCommands() => new List<IObservable<bool>>();
 
-        protected void Cancel() => AfterCancel();
+        protected void CancelRequested() => AfterCancel();
 
         protected virtual void AfterCancel() { }
 
@@ -353,10 +362,22 @@ namespace OnPoint.ViewModels
         /// <param name="disposable">The <see cref="CompositeDisposable"/> used to dispose bindings</param>
         public async void RequestActivated(CompositeDisposable disposable)
         {
+            Debug($"RequestActivated");
             if (CanActivatedBeRequested)
             {
-                await Activated(disposable);
-                IsActivated = true;
+                if (LifetimeScope != null && (disposable == null || disposable.IsDisposed))
+                {
+                    throw new NotSupportedException($"In order to do manual view model activation with a LifetimeScope, CanActivatedBeRequested must be to true and a non-null and non-disposed CompositeDisposable must be provided.{Environment.NewLine}Manual view model activation should be avoided; see: https://reactiveui.net/docs/handbook/when-activated/");
+                }
+                else
+                {
+                    await Activated(disposable);
+                    IsActivated = true;
+                }
+            }
+            else
+            {
+                this.Log().Warn($"Activation requested on {this}, but CanActivatedBeRequested is set to false.");
             }
         }
 
@@ -365,7 +386,7 @@ namespace OnPoint.ViewModels
             IObservable<T> retVal = Observable.FromAsync(ct => Task.Run(funk, ct));
             if (canCancel)
             {
-                retVal = retVal.TakeUntil(CancelCmd);
+                retVal = retVal.TakeUntil(Cancel);
             }
             return retVal;
         }
@@ -375,11 +396,13 @@ namespace OnPoint.ViewModels
             IObservable<T> retVal = Observable.FromAsync(funk);
             if (canCancel)
             {
-                retVal = retVal.TakeUntil(CancelCmd);
+                retVal = retVal.TakeUntil(Cancel);
             }
             return retVal;
         }
 
         protected virtual string GetBusyOverrideMessage() => null;
+
+        protected void Debug(string message) => this.Log().Debug($"{ViewModelId} - {this}: {message}.");
     }
 }

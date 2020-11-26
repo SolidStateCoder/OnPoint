@@ -23,6 +23,9 @@ namespace OnPoint.ViewModels
         public ObsColl<T> Contents { get; } = new ObsColl<T>();
         public ObsColl<T> SelectedContents { get; } = new ObsColl<T>();
 
+        /// <summary>
+        /// The selected item in a collection like a ListBox.
+        /// </summary>
         public T SelectedContent { get => _SelectedContent; set => this.RaiseAndSetIfChanged(ref _SelectedContent, value); }
         private T _SelectedContent = default;
 
@@ -106,24 +109,28 @@ namespace OnPoint.ViewModels
 
         public virtual void AddAndSelectContent(T content)
         {
+            Debug($"AddAndSelectContent {content}");
             AddContent(content);
             SelectedContent = content;
         }
 
         public virtual T AddContent(T content)
         {
+            Debug($"AddContent {content}");
             Contents.Add(content);
             return content;
         }
 
         public virtual void AddContents(IEnumerable<T> contents)
         {
+            Debug($"AddContents");
             contents.Should().NotBeNull();
             AddContents(contents.ToArray());
         }
 
         public virtual void AddContents(params T[] contents)
         {
+            Debug($"AddContents");
             contents.Should().NotBeNull();
 
             foreach (var content in contents)
@@ -134,17 +141,20 @@ namespace OnPoint.ViewModels
 
         public virtual void ClearAndAddContents(params T[] contents)
         {
+            Debug($"ClearAndAddContents");
             ClearContents();
             AddContents(contents);
         }
 
         public virtual void ClearAndAddContents(IEnumerable<T> contents)
         {
+            Debug($"ClearAndAddContents");
             ClearAndAddContents(contents.ToArray());
         }
 
         public virtual void RemoveContent(T content, bool selectNext = true)
         {
+            Debug($"RemoveContent {content} {selectNext}");
             if (Contents.Contains(content))
             {
                 bool changeSelection = false;
@@ -173,6 +183,7 @@ namespace OnPoint.ViewModels
 
         public virtual void RemoveContents(Func<T, bool> filter)
         {
+            Debug($"RemoveContents {filter}");
             filter.Should().NotBeNull();
 
             List<T> toRemove = Contents.Where(filter).ToList();
@@ -184,11 +195,13 @@ namespace OnPoint.ViewModels
 
         public virtual void ClearContents()
         {
+            Debug($"ClearContents");
             Contents.Clear();
         }
 
         public virtual bool ReplaceContent(T oldCopy, T newCopy)
         {
+            Debug($"ReplaceContent {oldCopy} {newCopy}");
             bool retVal = false;
             if (Contents.Contains(oldCopy) && newCopy != null)
             {
@@ -201,6 +214,7 @@ namespace OnPoint.ViewModels
 
         public virtual bool ReplaceContent(T newCopy)
         {
+            Debug($"ReplaceContent {newCopy}");
             bool retVal = false;
             T item = Contents.FirstOrDefault(x => x?.Equals(newCopy) == true);
             if (item != null)

@@ -2,10 +2,6 @@
 using System.Reactive.Disposables;
 using System.Windows;
 using System.Windows.Controls;
-using System;
-using System.Linq;
-using ReactiveUI;
-using System.Reactive;
 
 namespace OnPoint.WpfTestApp
 {
@@ -43,28 +39,28 @@ namespace OnPoint.WpfTestApp
                 this.Bind(ViewModel, vm => vm.SelectedContent.LastName, v => v.LastNameText.Text)
                     .DisposeWith(disposable);
 
-                this.BindCommand(ViewModel, vm => vm.CancelBoundCmd, v => v.CancelButton)
+                this.BindCommand(ViewModel, vm => vm.CancelBound, v => v.CancelButton)
                     .DisposeWith(disposable);
 
                 this.OneWayBind(ViewModel, vm => vm.IsCancelEnabled, v => v.CancelButton.Visibility)
                     .DisposeWith(disposable);
 
-                this.OneWayBind(ViewModel, vm => vm.RefreshItemsCmdVM, v => v.RefreshButton.DataContext)
+                this.OneWayBind(ViewModel, vm => vm.RefreshItemsVM, v => v.RefreshButton.DataContext)
                     .DisposeWith(disposable);
 
-                this.OneWayBind(ViewModel, vm => vm.CreateNewItemCmdVM, v => v.AddButton.DataContext)
+                this.OneWayBind(ViewModel, vm => vm.CreateNewItemVM, v => v.AddButton.DataContext)
                     .DisposeWith(disposable);
 
-                this.OneWayBind(ViewModel, vm => vm.DeleteItemCmdVM, v => v.DeleteButton.DataContext)
+                this.OneWayBind(ViewModel, vm => vm.DeleteItemVM, v => v.DeleteButton.DataContext)
                     .DisposeWith(disposable);
 
-                this.OneWayBind(ViewModel, vm => vm.SaveItemCmdVM, v => v.SaveButton.DataContext)
+                this.OneWayBind(ViewModel, vm => vm.SaveItemVM, v => v.SaveButton.DataContext)
                     .DisposeWith(disposable);
 
-                this.OneWayBind(ViewModel, vm => vm.SaveChangedItemsCmdVM, v => v.SaveAllButton.DataContext)
+                this.OneWayBind(ViewModel, vm => vm.SaveChangedItemsVM, v => v.SaveAllButton.DataContext)
                     .DisposeWith(disposable);
 
-                this.OneWayBind(ViewModel, vm => vm.SearchItemsCmdVM, v => v.SearchButton.DataContext)
+                this.OneWayBind(ViewModel, vm => vm.SearchItemsVM, v => v.SearchButton.DataContext)
                     .DisposeWith(disposable);
 
                 this.Bind(ViewModel, vm => vm.SearchTerm, v => v.SearchTermText.Text)

@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
-using System.Reactive.Disposables;
-using System.Reactive;
-using ReactiveUI;
+﻿using Autofac;
+using NUnit.Framework;
+using OnPoint.ViewModels;
 using System;
-using System.Linq;
+using System.Reactive.Disposables;
+using System.Threading.Tasks;
 
 namespace OnPoint.UnitTests
 {
@@ -39,12 +39,39 @@ namespace OnPoint.UnitTests
             Assert.IsFalse(_RefreshableVM.IsEnabled);
 
             // TODO: refactor
-            while(_RefreshableVM.IsBusy)
+            while (_RefreshableVM.IsBusy)
             {
                 System.Threading.Thread.Yield();
                 System.Threading.Thread.Sleep(100);
             }
             Assert.AreEqual(_RefreshableVM.Content, "1");
+        }
+
+        [Test]
+        public void LifetimeScoreDispose()
+        {
+            using (CompositeDisposable disposable = new CompositeDisposable())
+            {
+                for (int x = 0; x < 10; x++)
+                {
+                    ILifetimeScope scope = BuildScope();
+                    for (int y = 0; y < 100; y++)
+                    {
+                        RefreshableVM refreshableVM = scope.Resolve<RefreshableVM>(new TypedParameter(typeof(ILifetimeScope), scope));
+                        refreshableVM.RequestActivated(disposable);
+                        refreshableVM.Content = y.ToString();
+                    }
+                }
+            }
+            Assert.AreEqual(ViewModelBase.LifetimeScopeCounts, 0);
+        }
+
+        private ILifetimeScope BuildScope()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterType<RefreshableVM>();
+            IContainer container = builder.Build();
+            return container.BeginLifetimeScope();
         }
     }
 }

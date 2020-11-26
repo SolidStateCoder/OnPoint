@@ -1,5 +1,6 @@
 ﻿using DynamicData;
 using DynamicData.Binding;
+using Splat;
 using System;
 using System.Collections.Generic;
 
@@ -10,7 +11,7 @@ namespace OnPoint.ViewModels
     /// Named "ObsColl" because "ObservableCollectionExtendedExtended" seemed a bit much.  ;-)
     /// </summary>
     /// <typeparam name="T">The type of items being stored</typeparam>
-    public class ObsColl<T> : ObservableCollectionExtended<T>
+    public class ObsColl<T> : ObservableCollectionExtended<T>, IEnableLogger
     {
         public ObsColl()
         {
@@ -22,6 +23,7 @@ namespace OnPoint.ViewModels
 
         public void AddRangeSilent(IEnumerable<T> items)
         {
+            this.Log().Debug("AddRangeSilent");
             using (SuspendNotifications())
             {
                 AddRange(items);
@@ -30,6 +32,7 @@ namespace OnPoint.ViewModels
 
         public void ClearSilent()
         {
+            this.Log().Debug("ClearSilent");
             using (SuspendNotifications())
             {
                 Clear();
@@ -38,6 +41,7 @@ namespace OnPoint.ViewModels
 
         public void ClearAndAddRange(IEnumerable<T> items)
         {
+            this.Log().Debug("ClearAndAddRange");
             Clear();
             if (items != null)
             {
@@ -47,14 +51,13 @@ namespace OnPoint.ViewModels
 
         public void ClearAndAddRangeSilent(IEnumerable<T> items)
         {
+            this.Log().Debug("ClearAndAddRangeSilent");
             using (SuspendNotifications())
             {
                 ClearAndAddRange(items);
             }
         }
 
-        protected virtual void CollectionHasChanged(IChangeSet<T> changeSet)
-        {
-        }
+        protected virtual void CollectionHasChanged(IChangeSet<T> changeSet) { }
     }
 }
