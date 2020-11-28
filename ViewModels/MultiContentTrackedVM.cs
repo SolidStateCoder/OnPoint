@@ -16,7 +16,7 @@ namespace OnPoint.ViewModels
     /// An extension of <see cref="MultiContentVM"/> that reports when its contents have changed.
     /// </summary>
     /// <typeparam name="T">The type of the <see cref="MultiContentVM.Contents"/></typeparam>
-    public class MultiContentIsChangedVM<T> : MultiContentVM<T> where T : class, IIsChanged
+    public class MultiContentTrackedVM<T> : MultiContentVM<T> where T : class, IIsChanged
     {
         /// <summary>
         /// Set to true whenever a <see cref="Contents"/> <see cref="IIsChanged.IsChanged"/> property is set to true.
@@ -32,7 +32,7 @@ namespace OnPoint.ViewModels
             $"HasChangedContents: {HasChangedContents}{NL}";
 #endif
 
-        public MultiContentIsChangedVM(ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default) : base(lifeTimeScope, viewModelTypeId, screen, urlPathSegment)
+        public MultiContentTrackedVM(ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default) : base(lifeTimeScope, viewModelTypeId, screen, urlPathSegment)
         {
             WhenHasChanges_NotBusy = this.WhenAny(vm => vm.IsBusy, vm => vm.HasChangedContents, (busy, changed) => !busy.Value && changed.Value);
         }

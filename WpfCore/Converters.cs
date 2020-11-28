@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.IconPacks;
-using NodaTime;
 using OnPoint.Universal;
 using System;
 using System.Globalization;
@@ -7,7 +6,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace OnPoint.WpfCore
+namespace OnPoint.WpfDotNet5
 {
     [ValueConversion(typeof(bool), typeof(bool))]
     public class BooleanNegatorConverter : IValueConverter
@@ -245,33 +244,6 @@ namespace OnPoint.WpfCore
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
-    }
-
-
-    [ValueConversion(typeof(long), typeof(DateTime))]
-    public class TicksToDateTimeConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            DateTime? retVal = null;
-            long input = 0;
-            if (Int64.TryParse(value?.ToString(), out input))
-            {
-                retVal = Instant.FromUnixTimeTicks(input * 10000).ToDateTimeUtc().ToLocalTime();
-            }
-            return retVal;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            long? retVal = null;
-            DateTime? input = value as DateTime?;
-            if (input.HasValue)
-            {
-                retVal = Instant.FromDateTimeUtc(input.Value.ToUniversalTime()).ToUnixTimeTicks() / 10000;
-            }
-            return retVal;
-        }
     }
 
 

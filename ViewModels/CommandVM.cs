@@ -5,7 +5,7 @@ using System.Windows.Input;
 namespace OnPoint.ViewModels
 {
     /// <summary>
-    /// Used to represent an <see cref="ICommand"/> on the UI.
+    /// Used to represent an <see cref="ICommand"/> on the UI; usually bound to a button.
     /// </summary>
     public class CommandVM : IconVM
     {

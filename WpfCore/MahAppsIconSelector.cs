@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace OnPoint.WpfCore
+namespace OnPoint.WpfDotNet5
 {
     public class MahAppsIconSelector : DataTemplateSelector
     {

@@ -1,6 +1,5 @@
 ﻿using OnPoint.Universal;
 using ReactiveUI;
-using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -16,7 +15,7 @@ namespace OnPoint.ViewModels
     /// Models standard create, read, update, and delete functionality.
     /// </summary>
     /// <typeparam name="T">The type of the items being crud'ed</typeparam>
-    public abstract class CrudVM<T> : MultiContentIsChangedVM<T> where T : class, IIsChanged
+    public abstract class CrudVM<T> : MultiContentTrackedVM<T> where T : class, IIsChanged
     {
         /// <summary>
         /// Can be used as the search text entered by the user.

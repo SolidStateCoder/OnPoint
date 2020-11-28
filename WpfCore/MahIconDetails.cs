@@ -4,7 +4,7 @@ using OnPoint.ViewModels;
 using ReactiveUI;
 using System.Windows.Media;
 
-namespace OnPoint.WpfCore
+namespace OnPoint.WpfDotNet5
 {
     public class MahIconDetails<TIcon, TForeground> : IconDetails where TForeground : class
     {
