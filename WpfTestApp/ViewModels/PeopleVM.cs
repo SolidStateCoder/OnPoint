@@ -1,7 +1,7 @@
 ﻿using MahApps.Metro.IconPacks;
 using OnPoint.Universal;
 using OnPoint.ViewModels;
-using OnPoint.WpfCore;
+using OnPoint.WpfDotNet5;
 using ReactiveUI;
 using Splat;
 using System;

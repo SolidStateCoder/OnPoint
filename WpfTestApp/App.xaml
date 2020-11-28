@@ -3,13 +3,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:OPTest="clr-namespace:OnPoint.WpfTestApp"
-    xmlns:Wpf="clr-namespace:OnPoint.WpfCore;assembly=OnPoint.WpfCore"
+    xmlns:OnPointWpf="clr-namespace:OnPoint.WpfDotNet5;assembly=OnPoint.WpfDotNet5"
     Startup="Application_Startup"
     >
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/OnPoint.WpfCore;component/MahAppsIconTemplates.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/OnPoint.WpfDotNet5;component/MahAppsIconTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!-- A borderless and background-less button. -->
@@ -59,7 +59,7 @@
                         <ControlTemplate TargetType="ButtonBase">
                             <Border Background="{TemplateBinding Background}" CornerRadius="6" BorderThickness="1" BorderBrush="DimGray">
                                 <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Wpf:Icon DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <OnPointWpf:Icon DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding CommandText}" Margin="8,0,0,0" VerticalAlignment="Center" />
                                 </DockPanel>
                             </Border>
@@ -69,7 +69,7 @@
             </Style>
 
 
-            <Wpf:VisibilityConverter x:Key="VisibilityBool" />
+            <OnPointWpf:VisibilityConverter x:Key="VisibilityBool" />
 
             <DataTemplate DataType="{x:Type OPTest:RootVM}">
                 <OPTest:RootView />

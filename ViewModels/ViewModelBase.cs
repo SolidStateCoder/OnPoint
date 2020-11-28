@@ -280,7 +280,7 @@ namespace OnPoint.ViewModels
 
             IList<IObservable<bool>> commandsIsExecuting = GetCancellableCommads();
             IsCancelEnabled = commandsIsExecuting.AnyNonNulls();
-            CancelBound = ReactiveCommand.Create((Action)(() => { ObservableExtensions.Subscribe<Unit>(this.Cancel.Execute()); }), Observable.Merge(commandsIsExecuting));
+            CancelBound = ReactiveCommand.Create(() => { ObservableExtensions.Subscribe(this.Cancel.Execute()); }, Observable.Merge(commandsIsExecuting));
 
             IList<IObservable<bool>> busyCmds = GetBusyCommands();
             Observable.Merge(GetBusyCommands())

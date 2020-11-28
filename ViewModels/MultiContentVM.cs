@@ -20,11 +20,18 @@ namespace OnPoint.ViewModels
     /// <typeparam name="T">The type of the Contents</typeparam>
     public class MultiContentVM<T> : ViewModelBase
     {
+        /// <summary>
+        /// The main collection of items.
+        /// </summary>
         public ObsColl<T> Contents { get; } = new ObsColl<T>();
+
+        /// <summary>
+        /// The selected items from <see cref="Contents"/>.
+        /// </summary>
         public ObsColl<T> SelectedContents { get; } = new ObsColl<T>();
 
         /// <summary>
-        /// The selected item in a collection like a ListBox.
+        /// The selected item from <see cref="Contents"/>.
         /// </summary>
         public T SelectedContent { get => _SelectedContent; set => this.RaiseAndSetIfChanged(ref _SelectedContent, value); }
         private T _SelectedContent = default;
@@ -37,6 +44,14 @@ namespace OnPoint.ViewModels
         protected IObservable<bool> WhenSelected { get; }
         protected IObservable<bool> WhenSelected_NotBusy { get; }
         protected IObservable<bool> WhenAnyContents { get; }
+
+        public MultiContentVM(params T[] items) : this()
+        {
+            if(items != null)
+            {
+                Contents.AddAll(items);
+            }
+        }
 
         public MultiContentVM(ILifetimeScope lifeTimeScope = default, uint viewModelTypeId = default, IScreen screen = default, string urlPathSegment = default) : base(lifeTimeScope, viewModelTypeId, screen, urlPathSegment)
         {

@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using OnPoint.Universal;
-using OnPoint.WpfCore;
+using OnPoint.WpfDotNet5;
 using System.Globalization;
 using System.Windows;
 

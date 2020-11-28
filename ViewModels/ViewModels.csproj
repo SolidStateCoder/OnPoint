@@ -25,7 +25,6 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.0.0" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
-    <PackageReference Include="NodaTime" Version="3.0.3" />
     <PackageReference Include="ReactiveUI" Version="12.1.5" />
   </ItemGroup>
 

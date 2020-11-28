@@ -2,10 +2,15 @@
 using NLog.Config;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
+using ReactiveUI;
 using Splat;
 using Splat.NLog;
 using System;
 using System.IO;
+using System.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+using System.Reflection;
 using System.Windows;
 
 namespace OnPoint.WpfTestApp
@@ -35,9 +40,33 @@ namespace OnPoint.WpfTestApp
             NLog.ILogger logger = LogManager.GetCurrentClassLogger();
             logger.Fatal($"OnPoint Test App started.");
 
+            Locator.CurrentMutable.Register(() => new CustomPropertyResolver(), typeof(ICreatesObservableForProperty));
             Locator.CurrentMutable.UseNLogWithWrappingFullLogger();
 
             new MainWindow() { DataContext = new RootVM() }.Show();
+        }
+    }
+
+
+    // Solution for suppressing the warning: The class OnPoint.WpfTestApp.RootView property DescriptionText is a POCO type and won't send change notifications, WhenAny will only return a single value! 
+    // https://stackoverflow.com/questions/30352447/using-reactiveuis-bindto-to-update-a-xaml-property-generates-a-warning
+    public class CustomPropertyResolver : ICreatesObservableForProperty
+    {
+        public int GetAffinityForObject(Type type, string propertyName, bool beforeChanged = false)
+        {
+            if (!typeof(FrameworkElement).IsAssignableFrom(type))
+                return 0;
+            var fi = type.GetTypeInfo().GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+              .FirstOrDefault(x => x.Name == propertyName);
+
+            return fi != null ? 2 /* POCO affinity+1 */ : 0;
+        }
+
+        public IObservable<IObservedChange<object, object>> GetNotificationForProperty(object sender, System.Linq.Expressions.Expression expression, string propertyName, bool beforeChanged = false, bool suppressWarnings = false)
+        {
+            var fe = (FrameworkElement)sender;
+            return Observable.Return(new ObservedChange<object, object>(sender, expression), new DispatcherScheduler(fe.Dispatcher))
+                .Concat(Observable.Never<IObservedChange<object, object>>());
         }
     }
 }

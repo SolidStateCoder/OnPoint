@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace OnPoint.ViewModels
 {
     /// <summary>
-    /// Adds the ability to call <see cref="SuspendNotifications"/> automatically.
+    /// Adds the ability to call <see cref="SuspendNotifications"/> automatically ("Silent" methods).
     /// Named "ObsColl" because "ObservableCollectionExtendedExtended" seemed a bit much.  ;-)
     /// </summary>
     /// <typeparam name="T">The type of items being stored</typeparam>

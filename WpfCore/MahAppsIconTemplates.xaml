@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:rxui="http://reactiveui.net"
     xmlns:iconpacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:Wpf="clr-namespace:OnPoint.WpfCore"
+    xmlns:Wpf="clr-namespace:OnPoint.WpfDotNet5"
     >
 
     <Wpf:MahIconFlipConverter x:Key="IconFlip" />

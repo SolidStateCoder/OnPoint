@@ -1,7 +1,7 @@
 ﻿using OnPoint.Universal;
 using System.Windows;
 
-namespace OnPoint.WpfCore
+namespace OnPoint.WpfDotNet5
 {
     /// <summary>
     /// Contains helper methods to act on Wpf classes.

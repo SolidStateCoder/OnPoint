@@ -3,7 +3,7 @@ using OnPoint.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace OnPoint.WpfCore
+namespace OnPoint.WpfDotNet5
 {
     public partial class Icon : UserControl
     {

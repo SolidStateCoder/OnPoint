@@ -1,4 +1,4 @@
-﻿using OnPoint.WpfCore;
+﻿using OnPoint.WpfDotNet5;
 using ReactiveUI;
 using System.Reactive.Disposables;
 using System.Windows;
