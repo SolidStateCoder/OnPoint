@@ -1,7 +1,7 @@
 ## OnPoint
 ![On Point Logo](/Images/OnPointLogoSmall.png)
 
-####Enhances the Reactive UI MVVM framework with easy to use classes for the most common use cases.  
+###Enhances the Reactive UI MVVM framework with easy to use classes for the most common use cases.  
 **In a nutshell:**  
 ContentVM<T> - Tracks changes to a single item. Useful for binding to a [ContentControl](https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.contentcontrol?view=net-5.0).  
 DualContentVM<T,U> - Adds a second tracked item to ContentVM<T>.  
