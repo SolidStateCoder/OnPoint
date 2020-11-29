@@ -33,7 +33,25 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class BootstrapIconsIconDetails : MahIconDetails<PackIconBootstrapIconsKind, SolidColorBrush>
+    public class MahIconDetailsSCB<TIcon> : MahIconDetails<TIcon, SolidColorBrush>
+    {
+        private static SolidColorBrush _Transparent = new SolidColorBrush(Colors.Transparent);
+
+        public MahIconDetailsSCB()
+        {
+            Background = _Transparent;
+        }
+
+        public MahIconDetailsSCB(TIcon icon, SolidColorBrush foreground, double width = 16, double height = 16, GridPosition gridPosition = GridPosition.Fill, IconFlipOrientation flip = IconFlipOrientation.None,
+            double rotation = 0, bool spin = false, double spinDuration = 0, object spinEasingFunction = null, bool spinAutoReverse = false, string toolTip = default)
+            : base(icon, foreground, width, height, gridPosition, flip, rotation, spin, spinDuration, spinEasingFunction, spinAutoReverse, toolTip)
+        {
+            Background = _Transparent;
+        }
+    }
+
+
+    public class BootstrapIconsIconDetails : MahIconDetailsSCB<PackIconBootstrapIconsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public BootstrapIconsIconDetails() { }
@@ -46,7 +64,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class BoxIconsIconDetails : MahIconDetails<PackIconBoxIconsKind, SolidColorBrush>
+    public class BoxIconsIconDetails : MahIconDetailsSCB<PackIconBoxIconsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public BoxIconsIconDetails() { }
@@ -59,7 +77,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class PackIconEntypoDetails : MahIconDetails<PackIconEntypoKind, SolidColorBrush>
+    public class PackIconEntypoDetails : MahIconDetailsSCB<PackIconEntypoKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public PackIconEntypoDetails() { }
@@ -72,7 +90,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class EvaIconDetails : MahIconDetails<PackIconEvaIconsKind, SolidColorBrush>
+    public class EvaIconDetails : MahIconDetailsSCB<PackIconEvaIconsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public EvaIconDetails() { }
@@ -85,7 +103,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class FeatherIconDetails : MahIconDetails<PackIconFeatherIconsKind, SolidColorBrush>
+    public class FeatherIconDetails : MahIconDetailsSCB<PackIconFeatherIconsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public FeatherIconDetails() { }
@@ -98,7 +116,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class FontAwesomeIconDetails : MahIconDetails<PackIconFontAwesomeKind, SolidColorBrush>
+    public class FontAwesomeIconDetails : MahIconDetailsSCB<PackIconFontAwesomeKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public FontAwesomeIconDetails() { }
@@ -111,7 +129,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class IonIconDetails : MahIconDetails<PackIconIoniconsKind, SolidColorBrush>
+    public class IonIconDetails : MahIconDetailsSCB<PackIconIoniconsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public IonIconDetails() { }
@@ -124,7 +142,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class JamIconDetails : MahIconDetails<PackIconJamIconsKind, SolidColorBrush>
+    public class JamIconDetails : MahIconDetailsSCB<PackIconJamIconsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public JamIconDetails() { }
@@ -137,7 +155,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class MaterialIconDetails : MahIconDetails<PackIconMaterialKind, SolidColorBrush>
+    public class MaterialIconDetails : MahIconDetailsSCB<PackIconMaterialKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public MaterialIconDetails() { }
@@ -150,7 +168,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class MaterialDesignIconDetails : MahIconDetails<PackIconMaterialDesignKind, SolidColorBrush>
+    public class MaterialDesignIconDetails : MahIconDetailsSCB<PackIconMaterialDesignKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public MaterialDesignIconDetails() { }
@@ -163,7 +181,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class MaterialLightIconDetails : MahIconDetails<PackIconMaterialLightKind, SolidColorBrush>
+    public class MaterialLightIconDetails : MahIconDetailsSCB<PackIconMaterialLightKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public MaterialLightIconDetails() { }
@@ -176,7 +194,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class MicronsIconDetails : MahIconDetails<PackIconMicronsKind, SolidColorBrush>
+    public class MicronsIconDetails : MahIconDetailsSCB<PackIconMicronsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public MicronsIconDetails() { }
@@ -189,7 +207,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class ModernIconDetails : MahIconDetails<PackIconModernKind, SolidColorBrush>
+    public class ModernIconDetails : MahIconDetailsSCB<PackIconModernKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public ModernIconDetails() { }
@@ -202,7 +220,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class OcticonsIconDetails : MahIconDetails<PackIconOcticonsKind, SolidColorBrush>
+    public class OcticonsIconDetails : MahIconDetailsSCB<PackIconOcticonsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public OcticonsIconDetails() { }
@@ -215,7 +233,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class PicolIconDetails : MahIconDetails<PackIconPicolIconsKind, SolidColorBrush>
+    public class PicolIconDetails : MahIconDetailsSCB<PackIconPicolIconsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public PicolIconDetails() { }
@@ -228,7 +246,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class RPGAwesomeIconDetails : MahIconDetails<PackIconRPGAwesomeKind, SolidColorBrush>
+    public class RPGAwesomeIconDetails : MahIconDetailsSCB<PackIconRPGAwesomeKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public RPGAwesomeIconDetails() { }
@@ -241,7 +259,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class SimpleIconDetails : MahIconDetails<PackIconSimpleIconsKind, SolidColorBrush>
+    public class SimpleIconDetails : MahIconDetailsSCB<PackIconSimpleIconsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public SimpleIconDetails() { }
@@ -254,7 +272,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class TypIconDetails : MahIconDetails<PackIconTypiconsKind, SolidColorBrush>
+    public class TypIconDetails : MahIconDetailsSCB<PackIconTypiconsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public TypIconDetails() { }
@@ -267,7 +285,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class UniIconDetails : MahIconDetails<PackIconUniconsKind, SolidColorBrush>
+    public class UniIconDetails : MahIconDetailsSCB<PackIconUniconsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public UniIconDetails() { }
@@ -280,7 +298,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class WeatherIconDetails : MahIconDetails<PackIconWeatherIconsKind, SolidColorBrush>
+    public class WeatherIconDetails : MahIconDetailsSCB<PackIconWeatherIconsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public WeatherIconDetails() { }
@@ -293,7 +311,7 @@ namespace OnPoint.WpfDotNet5
     }
 
 
-    public class ZondIconDetails : MahIconDetails<PackIconZondiconsKind, SolidColorBrush>
+    public class ZondIconDetails : MahIconDetailsSCB<PackIconZondiconsKind>
     {
         private static SolidColorBrush _Black = new SolidColorBrush(Colors.Black);
         public ZondIconDetails() { }

@@ -8,7 +8,6 @@
     
     Icon="Images/Bullseye.ico"
     Width="800"
-    Height="600"
-    
-    Content="{Binding}"
-    />
+    Height="600">
+    <rxui:ViewModelViewHost DataContext="{Binding}" />
+</rxui:ReactiveWindow>

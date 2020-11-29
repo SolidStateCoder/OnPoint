@@ -8,7 +8,7 @@
     >
     <DockPanel>
 
-        <ContentControl DockPanel.Dock="Top" Content="{Binding PeopleVM}" Height="200" />
+        <rxui:ViewModelViewHost DockPanel.Dock="Top" DataContext="{Binding PeopleVM}" Height="200" />
 
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="4,10,4,4">
             <Button x:Name="LoadNumbersButton" Style="{StaticResource TextButton}" />
@@ -18,11 +18,11 @@
         <UniformGrid Columns="2" Rows="1">
 
             <Border BorderBrush="Blue" BorderThickness="2" CornerRadius="4" Margin="10">
-                <ContentControl Content="{Binding Content}" />
+                <rxui:ViewModelViewHost DataContext="{Binding Content}" />
             </Border>
 
             <Border BorderBrush="Green" BorderThickness="2" CornerRadius="4" Margin="10">
-                <ContentControl Content="{Binding Content2}" />
+                <rxui:ViewModelViewHost DataContext="{Binding Content2}" />
             </Border>
         </UniformGrid>
 
