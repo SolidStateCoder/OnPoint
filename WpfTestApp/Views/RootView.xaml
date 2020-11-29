@@ -30,7 +30,7 @@
         </StackPanel>
 
         <Border BorderBrush="Orange" BorderThickness="2" CornerRadius="4" Margin="2">
-            <ContentControl Content="{Binding Content}" Margin="2" />
+            <rxui:ViewModelViewHost DataContext="{Binding Content}" Margin="2" />
         </Border>
     </DockPanel>
 </rxui:ReactiveUserControl>

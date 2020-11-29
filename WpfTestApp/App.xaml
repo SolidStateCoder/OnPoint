@@ -2,6 +2,7 @@
     x:Class="OnPoint.WpfTestApp.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:rxui="http://reactiveui.net"
     xmlns:OPTest="clr-namespace:OnPoint.WpfTestApp"
     xmlns:OnPointWpf="clr-namespace:OnPoint.WpfDotNet5;assembly=OnPoint.WpfDotNet5"
     Startup="Application_Startup"
@@ -11,6 +12,12 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/OnPoint.WpfDotNet5;component/MahAppsIconTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="rxui:ViewModelViewHost">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                <Setter Property="ViewModel" Value="{Binding}" />
+            </Style>
 
             <!-- A borderless and background-less button. -->
             <Style x:Key="BlankButton" TargetType="{x:Type ButtonBase}">
@@ -70,26 +77,6 @@
 
 
             <OnPointWpf:VisibilityConverter x:Key="VisibilityBool" />
-
-            <DataTemplate DataType="{x:Type OPTest:RootVM}">
-                <OPTest:RootView />
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type OPTest:MainVM}">
-                <OPTest:MainView />
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type OPTest:PeopleVM}">
-                <OPTest:PeopleView />
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type OPTest:NumbersVM}">
-                <OPTest:NumbersView />
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type OPTest:LettersVM}">
-                <OPTest:LettersView />
-            </DataTemplate>
 
         </ResourceDictionary>
     </Application.Resources>

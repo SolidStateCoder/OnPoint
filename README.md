@@ -2,7 +2,7 @@
 ![On Point Logo](/Images/OnPointLogoSmall.png)
 
 **Enhances the Reactive UI MVVM framework with easy to use classes for the most common use cases.**   
-[GitHub source](https://github.com/SolidStateProgrammer/OnPoint)  
+[Source - GitHub](https://github.com/SolidStateProgrammer/OnPoint) | [Package - NuGet](https://www.nuget.org/packages/OnPoint/1.0.7) | [Documentation](https://github.com/SolidStateProgrammer/OnPoint/wiki) | Tutorial | FAQ  
 **In a nutshell:**  
 ContentVM<T> - Tracks changes to a single item. Useful for binding to a [ContentControl](https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.contentcontrol?view=net-5.0).  
 DualContentVM<T,U> - Adds a second tracked item to ContentVM<T>.  

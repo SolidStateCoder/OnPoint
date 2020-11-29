@@ -43,6 +43,12 @@ namespace OnPoint.WpfTestApp
             Locator.CurrentMutable.Register(() => new CustomPropertyResolver(), typeof(ICreatesObservableForProperty));
             Locator.CurrentMutable.UseNLogWithWrappingFullLogger();
 
+            Locator.CurrentMutable.Register(() => new RootView(), typeof(IViewFor<RootVM>));
+            Locator.CurrentMutable.Register(() => new MainView(), typeof(IViewFor<MainVM>));
+            Locator.CurrentMutable.Register(() => new PeopleView(), typeof(IViewFor<PeopleVM>));
+            Locator.CurrentMutable.Register(() => new NumbersView(), typeof(IViewFor<NumbersVM>));
+            Locator.CurrentMutable.Register(() => new LettersView(), typeof(IViewFor<LettersVM>));
+
             new MainWindow() { DataContext = new RootVM() }.Show();
         }
     }
