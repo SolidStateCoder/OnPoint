@@ -1,0 +1,100 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:rxui="http://reactiveui.net"
+    xmlns:iconpacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:Wpf="clr-namespace:OnPoint.WpfDotNet5"
+    >
+
+    <Wpf:MahIconFlipConverter x:Key="IconFlip" />
+    <Wpf:MahAppsIconSelector x:Key="MahAppsIcon" />
+
+    <DataTemplate x:Key="IconPath">
+        <Image Source="{Binding IconPath}" Width="{Binding Width}" Height="{Binding Height}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconBootstrapIcons">
+        <iconpacks:PackIconBootstrapIcons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconBoxIcons">
+        <iconpacks:PackIconBoxIcons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconEntypo">
+        <iconpacks:PackIconEntypo Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconEvaIcons">
+        <iconpacks:PackIconEvaIcons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconFeatherIcons">
+        <iconpacks:PackIconFeatherIcons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconFontAwesome">
+        <iconpacks:PackIconFontAwesome Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconIonicons">
+        <iconpacks:PackIconIonicons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconJamIcons">
+        <iconpacks:PackIconJamIcons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconMaterial">
+        <iconpacks:PackIconMaterial Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconMaterialDesign">
+        <iconpacks:PackIconMaterialDesign Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconMaterialLight">
+        <iconpacks:PackIconMaterialLight Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconMicrons">
+        <iconpacks:PackIconMicrons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconModern">
+        <iconpacks:PackIconModern Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconOcticons">
+        <iconpacks:PackIconOcticons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconPicolIcons">
+        <iconpacks:PackIconPicolIcons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconRPGAwesome">
+        <iconpacks:PackIconRPGAwesome Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconSimpleIcons">
+        <iconpacks:PackIconSimpleIcons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconTypicons">
+        <iconpacks:PackIconTypicons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconUnicons">
+        <iconpacks:PackIconUnicons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconWeatherIcons">
+        <iconpacks:PackIconWeatherIcons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PackIconZondicons">
+        <iconpacks:PackIconZondicons Width="{Binding Width}" Height="{Binding Height}" Foreground="{Binding Foreground}" Background="{Binding Background}" Kind="{Binding Icon}" ToolTip="{Binding ToolTip}" Flip="{Binding Flip, Converter={StaticResource IconFlip}}" RotationAngle="{Binding Rotation}" Spin="{Binding Spin}" SpinDuration="{Binding SpinDuration}" SpinEasingFunction="{Binding SpinEasingFunction}" SpinAutoReverse="{Binding SpinAutoReverse}" />
+    </DataTemplate>
+
+</ResourceDictionary>

@@ -9,7 +9,7 @@ namespace OnPoint.ViewModels
     public abstract class IconDetails : ReactiveObject
     {
         public IconFlipOrientation Flip { get => _Flip; set => this.RaiseAndSetIfChanged(ref _Flip, value); }
-        private IconFlipOrientation _Flip = IconFlipOrientation.Normal;
+        private IconFlipOrientation _Flip = IconFlipOrientation.None;
 
         public double Rotation { get => _Rotation; set => this.RaiseAndSetIfChanged(ref _Rotation, value); }
         private double _Rotation = default;
@@ -35,6 +35,10 @@ namespace OnPoint.ViewModels
         public GridPosition GridPosition { get => _GridPosition; set => this.RaiseAndSetIfChanged(ref _GridPosition, value); }
         private GridPosition _GridPosition = GridPosition.Fill;
 
+        public string ToolTip { get => _ToolTip; set => this.RaiseAndSetIfChanged(ref _ToolTip, value); }
+        private string _ToolTip = default;
+
+
         public IconDetails() { }
 
         public IconDetails(double width, double height)
@@ -43,7 +47,7 @@ namespace OnPoint.ViewModels
             Height = height;
         }
 
-        public IconDetails(double width, double height, GridPosition gridPosition, IconFlipOrientation flip, double rotation, bool spin, double spinDuration, object spinEasingFunction, bool spinAutoReverse)
+        public IconDetails(double width, double height, GridPosition gridPosition, IconFlipOrientation flip, double rotation, bool spin, double spinDuration, object spinEasingFunction, bool spinAutoReverse, string toolTip)
             : this(width, height)
         {
             GridPosition = gridPosition;
@@ -53,6 +57,7 @@ namespace OnPoint.ViewModels
             SpinDuration = spinDuration;
             SpinEasingFunction = spinEasingFunction;
             SpinAutoReverse = spinAutoReverse;
+            ToolTip = toolTip;
         }
     }
 }

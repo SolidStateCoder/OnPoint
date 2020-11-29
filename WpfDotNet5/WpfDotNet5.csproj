@@ -5,6 +5,14 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>OnPoint.WpfDotNet5</AssemblyName>
     <RootNamespace>OnPoint.WpfDotNet5</RootNamespace>
+    <Authors>Joshua Fischer</Authors>
+    <Product>OnPoint</Product>
+    <PackageTags>ReactiveUI, MVVM, Wpf</PackageTags>
+    <LangVersion>preview</LangVersion>
+    <PackageId>OnPoint.WPF</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Enhances the Reactive UI MVVM framework with easy to use patterns for the most common use cases.</Description>
+    <Version>1.0.7</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -3,7 +3,6 @@ using OnPoint.Universal;
 using OnPoint.ViewModels;
 using OnPoint.WpfDotNet5;
 using ReactiveUI;
-using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;

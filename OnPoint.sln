@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModels", "ViewModels\Vi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfTestApp", "WpfTestApp\WpfTestApp.csproj", "{0196A2DF-F336-46C3-82E7-F333B8C56AC5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfDotNet5", "WpfCore\WpfDotNet5.csproj", "{AAF3E717-D9D3-4619-97EE-E2948A8E0A32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfDotNet5", "WpfDotNet5\WpfDotNet5.csproj", "{AAF3E717-D9D3-4619-97EE-E2948A8E0A32}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{35E057D7-A856-4529-A27D-D56206C06E33}"
 EndProject
