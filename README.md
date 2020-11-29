@@ -154,6 +154,7 @@ MainWindow.xaml.cs
             }
         }
     }
+
 ### Built in icons/images ([MahApps](https://github.com/MahApps/MahApps.Metro))
 ![Hello World](/Images/Icons.jpg)  
 MainWindow.xaml  
@@ -263,4 +264,4 @@ App.xaml
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </Application.Resources>
-    </Application>
+    </Application>  
