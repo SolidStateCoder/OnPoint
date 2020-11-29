@@ -30,7 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Universal\Universal.csproj" />
     <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
-    <ProjectReference Include="..\WpfCore\WpfDotNet5.csproj" />
+    <ProjectReference Include="..\WpfDotNet5\WpfDotNet5.csproj" />
   </ItemGroup>
 
   <ItemGroup>

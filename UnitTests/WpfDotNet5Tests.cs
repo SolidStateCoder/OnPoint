@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace OnPoint.UnitTests
 {
-    public class WpfCoreTests
+    public class WpfDotNet5Tests
     {
         [Test]
         public void WpfEnumTests()

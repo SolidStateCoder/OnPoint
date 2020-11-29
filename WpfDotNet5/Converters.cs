@@ -89,7 +89,7 @@ namespace OnPoint.WpfDotNet5
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            IconFlipOrientation retVal = IconFlipOrientation.Normal;
+            IconFlipOrientation retVal = IconFlipOrientation.None;
             if (value is PackIconFlipOrientation flipOrientation)
             {
                 retVal = flipOrientation switch
@@ -97,8 +97,8 @@ namespace OnPoint.WpfDotNet5
                     PackIconFlipOrientation.Horizontal => IconFlipOrientation.Horizontal,
                     PackIconFlipOrientation.Vertical => IconFlipOrientation.Vertical,
                     PackIconFlipOrientation.Both => IconFlipOrientation.Both,
-                    PackIconFlipOrientation.Normal => IconFlipOrientation.Normal,
-                    _ => IconFlipOrientation.Normal
+                    PackIconFlipOrientation.Normal => IconFlipOrientation.None,
+                    _ => IconFlipOrientation.None
                 };
             }
             return retVal;

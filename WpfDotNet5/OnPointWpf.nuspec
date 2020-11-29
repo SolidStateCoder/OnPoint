@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>OnPoint</id>
+    <id>OnPoint.WPF</id>
     <version>1.0.7</version>
-    <title>OnPoint</title>
+    <title>OnPoint.WPF</title>
     <authors>Joshua Fischer</authors>
     <icon>Bullseye.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -14,13 +14,13 @@
     <releaseNotes></releaseNotes>
     <tags>ReactiveUI, MVVM, Wpf, Xamarin, Uno Platform</tags>
     <dependencies>
-      <dependency id="Autofac" version="6.0.0" />
-      <dependency id="FluentAssertions" version="5.10.3" />
       <dependency id="ReactiveUI" version="12.1.5" />
+      <dependency id="ReactiveUI.WPF" version="12.1.5" />
+      <dependency id="MahApps.Metro.IconPacks" version="4.8.0" />
+      <dependency id="OnPoint" version="1.0.7" />
     </dependencies>
   </metadata>
   <files>
     <file src="Bullseye.png" />
-    <file src="bin\netstandard2.1\OnPoint.Universal.dll" target="lib" />
   </files>
 </package>

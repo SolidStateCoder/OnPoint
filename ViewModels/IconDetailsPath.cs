@@ -28,8 +28,8 @@ namespace OnPoint.ViewModels
             LargeIconPath = largeIconPath ?? IconPath;
         }
 
-        public IconDetailsPath(string iconPath, double width, double height, GridPosition gridPosition, IconFlipOrientation flip, double rotation, bool spin, double spinDuration, object spinEasingFunction, bool spinAutoReverse, string largeIconPath = default)
-            : base(width, height, gridPosition, flip, rotation, spin, spinDuration, spinEasingFunction, spinAutoReverse)
+        public IconDetailsPath(string iconPath, double width, double height, GridPosition gridPosition, IconFlipOrientation flip, double rotation, bool spin, double spinDuration, object spinEasingFunction, bool spinAutoReverse, string toolTip, string largeIconPath = default)
+            : base(width, height, gridPosition, flip, rotation, spin, spinDuration, spinEasingFunction, spinAutoReverse, toolTip)
         {
             IconPath = iconPath;
             LargeIconPath = largeIconPath ?? IconPath;

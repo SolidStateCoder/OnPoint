@@ -22,16 +22,16 @@ namespace OnPoint.ViewModels
         public TForeground Background { get => _Background; set => this.RaiseAndSetIfChanged(ref _Background, value); }
         private TForeground _Background = default;
 
-        public MahIconDetails(TIcon icon, TForeground foreground, double width, double height, GridPosition gridPosition, IconFlipOrientation flip, double rotation, bool spin, double spinDuration, object spinEasingFunction, bool spinAutoReverse)
-            : base(width, height, gridPosition, flip, rotation, spin, spinDuration, spinEasingFunction, spinAutoReverse)
+        public MahIconDetails(TIcon icon, TForeground foreground, double width, double height, GridPosition gridPosition, IconFlipOrientation flip, double rotation, bool spin, double spinDuration, object spinEasingFunction, bool spinAutoReverse, string toolTip)
+            : base(width, height, gridPosition, flip, rotation, spin, spinDuration, spinEasingFunction, spinAutoReverse, toolTip)
         {
             Icon = icon;
             LargeIcon = icon;
             Foreground = foreground;
         }
 
-        public MahIconDetails(TIcon icon, TForeground foreground = default, double width = 16, double height = 16, GridPosition gridPosition = GridPosition.Fill)
-            : this(icon, foreground, width, height, gridPosition, IconFlipOrientation.Normal, 0, false, 0, null, false)
+        public MahIconDetails(TIcon icon, TForeground foreground = default, double width = 16, double height = 16, GridPosition gridPosition = GridPosition.Fill, string toolTip = default)
+            : this(icon, foreground, width, height, gridPosition, IconFlipOrientation.None, 0, false, 0, null, false, toolTip)
         {
         }
     }
