@@ -86,5 +86,18 @@ namespace OnPoint.UnitTests
             Person[] people = new Person[] { _Bob };
             Assert.AreEqual(_Bob.MakeArray(), people);
         }
+
+        [Test]
+        public void AddToArray()
+        {
+            Person[] people = new Person[] { _Bob };
+            var newPeople = _Jane.AddToArray(ref people);
+            Assert.AreEqual(people.Length, 2);
+            Assert.AreEqual(people, newPeople);
+            Assert.AreSame(people, newPeople);
+            Person nobody = null;
+            nobody.AddToArray(ref people);
+            Assert.AreEqual(people.Length, 3);
+        }
     }
 }

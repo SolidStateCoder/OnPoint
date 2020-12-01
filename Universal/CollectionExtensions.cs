@@ -99,15 +99,14 @@ namespace OnPoint.Universal
         /// <param name="items">The array to act on</param>
         /// <param name="item">The item to add</param>
         /// <returns><paramref name="items"/> resized with <paramref name="item"/> added to it</returns>
-        public static T[] AddToArray<T>(this T[] items, T item)
+        public static T[] AddToArray<T>(this T item, ref T[] items)
         {
-            T[] retVal = items;
-            if (retVal != null)
+            if (items != null)
             {
-                Array.Resize(ref retVal, retVal.Length + 1);
-                retVal[retVal.Length - 1] = item;
+                Array.Resize(ref items, items.Length + 1);
+                items[items.Length - 1] = item;
             }
-            return retVal;
+            return items;
         }
 
         /// <summary>
