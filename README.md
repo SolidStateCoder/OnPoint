@@ -156,7 +156,7 @@ MainWindow.xaml.cs
     }
 
 ### Built in icons/images ([MahApps](https://github.com/MahApps/MahApps.Metro))
-![Hello World](/Images/Icons.jpg)  
+![Hello World](/Images/Icons.gif)  
 MainWindow.xaml  
 
     <Window
