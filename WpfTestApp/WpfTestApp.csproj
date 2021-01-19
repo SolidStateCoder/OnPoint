@@ -17,14 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.0.0" />
-    <PackageReference Include="LinqKit" Version="1.1.21" />
+    <PackageReference Include="Autofac" Version="6.1.0" />
+    <PackageReference Include="LinqKit" Version="1.1.22" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.8.0" />
-    <PackageReference Include="NLog" Version="4.7.5" />
-    <PackageReference Include="ReactiveUI" Version="12.1.5" />
-    <PackageReference Include="ReactiveUI.WPF" Version="12.1.5" />
-    <PackageReference Include="Splat.Autofac" Version="9.7.1" />
-    <PackageReference Include="Splat.NLog" Version="9.7.1" />
+    <PackageReference Include="NLog" Version="4.7.6" />
+    <PackageReference Include="ReactiveUI" Version="13.0.38" />
+    <PackageReference Include="ReactiveUI.WPF" Version="13.0.38" />
+    <PackageReference Include="Splat.Autofac" Version="9.8.1" />
+    <PackageReference Include="Splat.NLog" Version="9.8.1" />
   </ItemGroup>
 
   <ItemGroup>

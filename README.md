@@ -3,6 +3,15 @@
 
 **Enhances the Reactive UI MVVM framework with easy to use classes for the most common use cases.**   
 [GitHub Source](https://github.com/SolidStateCoder/OnPoint) | [NuGet Package VM](https://www.nuget.org/packages/OnPoint/1.0.7) | [NuGet Package WPF](https://www.nuget.org/packages/OnPoint.WPF/1.0.7) | [Documentation](https://github.com/SolidStateCoder/OnPoint/wiki) | Tutorial | FAQ  
+
+**Goals:**  
+1. View Model first implementation pattern.  
+2. Center all actions around asynchronous [ReactiveCommands](https://www.reactiveui.net/api/reactiveui/reactivecommand/). ([Explanation](https://www.reactiveui.net/docs/guidelines/framework/commands))  
+3. Mirror patterns used by XAML based controls for easy binding.  
+4. Allow the logic for simple UI elements like buttons and icons to be defined in C# for faster implementation.  
+5. Automatically track the state of the view model and the items it contains (changed, busy, errored, etc).
+
+
 **In a nutshell:**  
 ContentVM<T> - Tracks changes to a single item. Useful for binding to a [ContentControl](https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.contentcontrol?view=net-5.0).  
 DualContentVM<T,U> - Adds a second tracked item to ContentVM<T>.  
@@ -10,7 +19,7 @@ MultiContentVM<T> - Tracks changes to a collection items. Useful for binding to 
 MultiContentTrackedVM<T> - Adds the ability to track the changed status of each item in a MultiContentVM<T>.  
 CrudVM<T> - Adds create, read, update, and delete capabilities to MultiContentTrackedVM<T>.  
 CrudServiceVM<T> - Routes all CRUD function to the given service. Just provide an instance of ICrudService and everything is handled for you!  
-Icons can be added in view model code and are automatically rendered; see the example below.
+Icons can be added in view model code and are automatically rendered.
   
 **Every view model automatically tracks:**  
 - Busy state  
@@ -20,6 +29,8 @@ Icons can be added in view model code and are automatically rendered; see the ex
 - Command errors  
 - Activation state  
 - Error and HUD messages 
+
+**Samples are on the [wiki](https://github.com/SolidStateCoder/OnPoint/wiki) page.**  
 
 **See the test app for a complete example:**
 
@@ -265,3 +276,10 @@ App.xaml
             </ResourceDictionary>
         </Application.Resources>
     </Application>  
+
+
+### State Tracking
+Every view model in OnPoint tracks and provides support for the following properties:  
+IsEnabled, IsVisible, IsBusy, IsCancelEnabled, IsActivated, IsSelected, Title, BusyMessage, HUDMessage, ErrorMessage, IsShowingErrorMessage, and IsShowingHUDMessage 
+![Hello World](/Images/Props.jpg)  
+MainWindow.xaml 
