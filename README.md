@@ -280,6 +280,41 @@ App.xaml
 
 ### State Tracking
 Every view model in OnPoint tracks and provides support for the following properties:  
-IsEnabled, IsVisible, IsBusy, IsCancelEnabled, IsActivated, IsSelected, Title, BusyMessage, HUDMessage, ErrorMessage, IsShowingErrorMessage, and IsShowingHUDMessage 
+IsEnabled, IsVisible, IsBusy, IsCancelEnabled, IsActivated, IsSelected, Title, BusyMessage, HUDMessage, ErrorMessage, IsShowingErrorMessage, and IsShowingHUDMessage   
+
 ![Hello World](/Images/Props.jpg)  
 MainWindow.xaml 
+
+	<Window
+	    x:Class="OnPointTest.MainWindow"
+	    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	    xmlns:OnPointWpf="clr-namespace:OnPoint.WpfDotNet5;assembly=OnPoint.WpfDotNet5" 
+	    Title="OnPoint Wpf Test" Height="300" Width="300">
+	    <DockPanel>
+	        <TextBlock DockPanel.Dock="Top" Text="{Binding ErrorMessage}" Foreground="Firebrick" Margin="4" />
+	        <TextBlock DockPanel.Dock="Top" Text="{Binding HUDMessage}" Foreground="DarkOrange" Margin="4" />
+	        <TextBlock Text="{Binding DebugOutput}" Margin="4" />
+	    </DockPanel>
+	</Window>
+
+MainWindow.xaml.cs  
+
+	using OnPoint.ViewModels;
+	using System.Windows;
+	namespace OnPointTest
+	{
+	    public partial class MainWindow : Window
+	    {
+	        public MainWindow()
+	        {
+	            InitializeComponent();
+	            DataContext = new ContentVM<string>("Hello World")
+	            {
+	                ErrorMessage = "An error occurred",
+	                HUDMessage = "Just some info",
+	                Title= "Basic VM"
+	            };
+	        }
+	    }
+	}
