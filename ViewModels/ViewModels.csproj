@@ -11,7 +11,7 @@
     <PackageId>OnPoint</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Enhances the Reactive UI MVVM framework with easy to use patterns for the most common use cases.</Description>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -24,9 +24,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.0.0" />
+    <PackageReference Include="Autofac" Version="6.1.0" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
-    <PackageReference Include="ReactiveUI" Version="12.1.5" />
+    <PackageReference Include="ReactiveUI" Version="13.0.38" />
   </ItemGroup>
 
   <ItemGroup>

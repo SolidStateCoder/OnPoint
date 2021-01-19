@@ -71,7 +71,7 @@ namespace OnPoint.WpfTestApp
         public IObservable<IObservedChange<object, object>> GetNotificationForProperty(object sender, System.Linq.Expressions.Expression expression, string propertyName, bool beforeChanged = false, bool suppressWarnings = false)
         {
             var fe = (FrameworkElement)sender;
-            return Observable.Return(new ObservedChange<object, object>(sender, expression), new DispatcherScheduler(fe.Dispatcher))
+            return Observable.Return(new ObservedChange<object, object>(sender, expression, null), new DispatcherScheduler(fe.Dispatcher))
                 .Concat(Observable.Never<IObservedChange<object, object>>());
         }
     }

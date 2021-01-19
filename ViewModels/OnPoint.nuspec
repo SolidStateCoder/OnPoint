@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>OnPoint</id>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <title>OnPoint</title>
     <authors>Solid State Coder</authors>
     <icon>Bullseye.png</icon>
@@ -21,6 +21,6 @@
   </metadata>
   <files>
     <file src="Bullseye.png" />
-    <file src="bin\netstandard2.1\OnPoint.Universal.dll" target="lib" />
+    <file src="bin\netstandard2.0\OnPoint.Universal.dll" target="lib" />
   </files>
 </package>
